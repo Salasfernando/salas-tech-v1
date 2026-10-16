@@ -1,0 +1,23 @@
+{
+  "name": "Salas Tech — Full Stack & Automação",
+  "short_name": "Salas Tech",
+  "description": "Sites, produtos web, sistemas e automações para empresas.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0B192C",
+  "theme_color": "#0B192C",
+  "icons": [
+    {
+      "src": "/assets/salas-tech-mark-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/salas-tech-mark-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

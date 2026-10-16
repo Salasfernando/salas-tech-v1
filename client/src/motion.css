@@ -1,0 +1,223 @@
+/* Movimento discreto, consistente e respeitando a preferência do sistema. */
+:root {
+  --motion-enter: 360ms;
+  --motion-ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+main > section[id],
+.company-page > section[id] {
+  scroll-margin-top: 112px;
+}
+
+/* Desativa os reveals antigos para evitar que vários sistemas animem o mesmo nó. */
+.site-shell > main,
+.case-page,
+.resume-page,
+.card-page,
+.company-page,
+.not-found-page,
+.reveal-up,
+.scroll-reveal,
+.scroll-reveal--visible,
+.section-pad > .section-kicker,
+.section-pad > .articles-heading,
+.section-pad > .projects-heading,
+.section-pad > .stack-intro {
+  animation: none !important;
+}
+
+html.motion-active .motion-reveal {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity var(--motion-enter) ease-out,
+    transform var(--motion-enter) var(--motion-ease);
+}
+
+html.motion-active .motion-reveal.motion-reveal--visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* CTA fixo: permanece estável e só responde ao hover/foco. */
+.whatsapp-float,
+.whatsapp-float::before,
+.whatsapp-float::after {
+  animation: none !important;
+}
+
+.whatsapp-float.whatsapp-float--motion {
+  position: fixed !important;
+  right: 24px;
+  bottom: 28px !important;
+  z-index: 180;
+  isolation: isolate;
+  width: 54px;
+  height: 54px;
+  overflow: visible;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 180ms var(--motion-ease),
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.whatsapp-float.whatsapp-float--motion::before,
+.whatsapp-float.whatsapp-float--motion::after {
+  display: none !important;
+  animation: none !important;
+}
+
+.whatsapp-float.whatsapp-float--motion:hover,
+.whatsapp-float.whatsapp-float--motion:focus-visible {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
+}
+
+/* Cards: elevação curta, sem rotação nem acento fora do brand kit. */
+.service-card {
+  transform: none;
+  box-shadow: none;
+  transition:
+    transform 180ms var(--motion-ease),
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.service-card::before {
+  display: none !important;
+}
+
+.service-card:hover,
+.service-card:focus-within {
+  transform: translateY(-3px);
+  border-color: rgba(0, 229, 255, 0.58);
+  box-shadow: 0 12px 28px rgba(11, 25, 44, 0.1);
+}
+
+.service-card .service-icon {
+  transition:
+    transform 180ms var(--motion-ease),
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.service-card:hover .service-icon,
+.service-card:focus-within .service-icon {
+  transform: translateY(-2px);
+}
+
+.service-card .service-arrow {
+  transition:
+    transform 180ms var(--motion-ease),
+    color 180ms ease;
+}
+
+.service-card:hover .service-arrow,
+.service-card:focus-within .service-arrow {
+  transform: translate(2px, -2px);
+  color: var(--cyan);
+}
+
+/* Mantém o grafismo institucional em ritmo lento, sem movimento abrupto. */
+.company-hero-art img {
+  animation-duration: 8s;
+}
+
+.company-orbit--one {
+  animation-duration: 42s;
+}
+
+.company-orbit--two {
+  animation-duration: 32s;
+}
+
+.footer-credit {
+  animation: none !important;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 5.25vw, 5.65rem);
+}
+
+.about h2,
+.stack-intro h2,
+.projects-heading h2 {
+  font-size: clamp(3rem, 4.95vw, 5.3rem);
+}
+
+.articles-heading h2,
+.brand-kit h2,
+.contact-content h2 {
+  font-size: clamp(2.9rem, 4.8vw, 5.1rem);
+}
+
+.case-hero h1 {
+  font-size: clamp(3.05rem, 5.45vw, 5.75rem);
+}
+
+.company-hero-copy h1 {
+  font-size: clamp(3.35rem, 6.4vw, 6.85rem);
+}
+
+.company-section-heading h2,
+.company-stack-grid h2 {
+  font-size: clamp(2.95rem, 5.35vw, 5.65rem);
+}
+
+.company-cta h2 {
+  font-size: clamp(3.25rem, 6vw, 6.2rem);
+}
+
+@media (max-width: 620px) {
+  .hero h1 {
+    font-size: clamp(2.65rem, 9.8vw, 3.85rem);
+  }
+
+  .about h2,
+  .stack-intro h2,
+  .projects-heading h2,
+  .articles-heading h2,
+  .brand-kit h2,
+  .contact-content h2 {
+    font-size: 2.85rem;
+  }
+
+  .case-hero h1 {
+    font-size: 3.05rem;
+  }
+
+  .company-hero-copy h1 {
+    font-size: clamp(3rem, 12.7vw, 4.7rem);
+  }
+
+  .whatsapp-float.whatsapp-float--motion {
+    right: 16px;
+    bottom: 22px !important;
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html.motion-active .motion-reveal,
+  html.motion-active .motion-reveal.motion-reveal--visible {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

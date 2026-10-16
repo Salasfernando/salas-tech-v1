@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://www.salastech.com.br/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.salastech.com.br/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.salastech.com.br/en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.salastech.com.br/" />
+  </url>
+  <url>
+    <loc>https://www.salastech.com.br/en</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.salastech.com.br/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.salastech.com.br/en" />
+  </url>
+  <url>
+    <loc>https://www.salastech.com.br/curriculo</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.salastech.com.br/curriculo" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.salastech.com.br/en/curriculo" />
+  </url>
+  <url>
+    <loc>https://www.salastech.com.br/en/curriculo</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.salastech.com.br/curriculo" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.salastech.com.br/en/curriculo" />
+  </url>
+  <url><loc>https://www.salastech.com.br/empresa</loc><changefreq>yearly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.salastech.com.br/servicos/sites-institucionais</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.salastech.com.br/servicos/produtos-web</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.salastech.com.br/servicos/sistemas-e-operacao</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.salastech.com.br/servicos/automacao</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.salastech.com.br/processo</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.salastech.com.br/cartao</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.salastech.com.br/marca</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.salastech.com.br/notas</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.salastech.com.br/privacidade</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.salastech.com.br/termos-de-uso</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.salastech.com.br/projetos/lounge-odontologia</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.salastech.com.br/projetos/etron-energy</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.salastech.com.br/projetos/unovitta-odontologia</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.salastech.com.br/projetos/noc-odontologia</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.salastech.com.br/projetos/etron-monitoramento</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.salastech.com.br/notas/tipagem-produto</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.salastech.com.br/notas/performance-arquitetura</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.salastech.com.br/notas/direito-codigo</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.salastech.com.br/notas/api-como-contrato</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.salastech.com.br/notas/componentes-consistentes</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.salastech.com.br/notas/deploy-sem-surpresa</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.salastech.com.br/notas/acessibilidade-na-pratica</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.salastech.com.br/notas/estados-de-carregamento</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.salastech.com.br/notas/seo-tecnico-na-interface</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.salastech.com.br/notas/dados-com-firebase</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+</urlset>
