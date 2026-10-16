@@ -77,8 +77,8 @@ O aplicativo estará disponível no seu navegador, geralmente no endereço: `htt
 *Desenvolvedor Full-Stack e Fundador da Salas Tech*
 
 * 🌐 [Site Oficial](https://salas-tech-v1.vercel.app)
-* 💼 [LinkedIn](https://linkedin.com/in/SEU_LINKEDIN)
-* 🐱 [GitHub](https://github.com/SEU_USUARIO)
+* 💼 [LinkedIn](https://linkedin.com/in/salas-fernando)
+* 🐱 [GitHub](https://github.com/Salasfernando)
 
 ---
 
