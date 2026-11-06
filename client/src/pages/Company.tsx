@@ -7,46 +7,17 @@ import {
   Sparkles,
   Workflow,
 } from "lucide-react";
+import { lazy, Suspense } from "react";
 import { Link } from "wouter";
 import BrandLockup from "@/components/BrandLockup";
 import SeoHead, { siteUrl } from "@/components/SeoHead";
-import { CONTACT_EMAIL, WHATSAPP_URL, WHATSAPP_NUMBER } from "@/lib/contact";
-import { services } from "@/lib/services";
+import { companyProcessSteps } from "@/data/process";
+import { companyCoreStack } from "@/data/stack";
 import { trackEvent } from "@/lib/analytics";
+import { CONTACT_EMAIL, WHATSAPP_NUMBER, WHATSAPP_URL } from "@/lib/contact";
+import { services } from "@/lib/services";
 
-const process = [
-  [
-    "01",
-    "Entender",
-    "Mapeamos contexto, público, problema e o que precisa acontecer depois do clique.",
-  ],
-  [
-    "02",
-    "Estruturar",
-    "Transformamos complexidade em arquitetura de informação, interface e prioridades.",
-  ],
-  [
-    "03",
-    "Construir",
-    "Desenvolvemos com React, Next.js, TypeScript e Node.js, com atenção a detalhe e manutenção.",
-  ],
-  [
-    "04",
-    "Evoluir",
-    "Validamos a experiência e deixamos um caminho claro para a próxima versão do produto.",
-  ],
-] as const;
-
-const coreStack = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Node.js",
-  "PostgreSQL",
-  "Prisma",
-  "APIs REST",
-  "Automação + IA",
-];
+const NetworkScene3D = lazy(() => import("@/components/NetworkScene3D"));
 
 export default function Company() {
   const jsonLd = {
@@ -93,6 +64,9 @@ export default function Company() {
             <Link href="/#projetos">
               Projetos <span>↗</span>
             </Link>
+            <Link href="/#sobre">
+              Sobre <span>↗</span>
+            </Link>
             <Link href="/processo">
               Processo <span>↗</span>
             </Link>
@@ -102,7 +76,7 @@ export default function Company() {
             <a
               href={WHATSAPP_URL}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               onClick={() =>
                 trackEvent("whatsapp_clicked", { source: "company_header" })
               }
@@ -133,7 +107,7 @@ export default function Company() {
               <a
                 href={WHATSAPP_URL}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="button button--primary"
                 onClick={() =>
                   trackEvent("whatsapp_clicked", { source: "company_hero" })
@@ -147,11 +121,15 @@ export default function Company() {
             </div>
           </div>
           <div className="company-hero-art" aria-hidden="true">
+            <Suspense fallback={null}>
+              <NetworkScene3D variant="orbital" />
+            </Suspense>
             <div className="company-orbit company-orbit--one" />
             <div className="company-orbit company-orbit--two" />
             <img
               src="/assets/salas-tech-mark-512.png"
               alt=""
+              aria-hidden="true"
               loading="lazy"
               decoding="async"
             />
@@ -237,7 +215,7 @@ export default function Company() {
               </p>
             </div>
             <div className="company-stack-list">
-              {coreStack.map((item, index) => {
+              {companyCoreStack.map((item, index) => {
                 const icons = [Layers3, Workflow, Code2, Sparkles, Check];
                 const Icon = icons[index % icons.length];
                 return (
@@ -258,7 +236,7 @@ export default function Company() {
             </span>
           </div>
           <div className="process-list">
-            {process.map(([index, title, copy]) => (
+            {companyProcessSteps.map(([index, title, copy]) => (
               <div className="process-row reveal-up" key={index}>
                 <span>{index}</span>
                 <h3>{title}</h3>
@@ -279,6 +257,7 @@ export default function Company() {
             <img
               src="/assets/salas-tech-mark-512.png"
               alt=""
+              aria-hidden="true"
               loading="lazy"
               decoding="async"
             />
@@ -292,7 +271,7 @@ export default function Company() {
             className="button button--primary"
             href={WHATSAPP_URL}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             onClick={() =>
               trackEvent("whatsapp_clicked", { source: "company_footer" })
             }
@@ -300,6 +279,7 @@ export default function Company() {
             Começar conversa <MessageCircle size={17} />
           </a>
         </section>
+
         <footer className="company-footer">
           <BrandLockup href="/" />
           <span>{CONTACT_EMAIL} · Brasília, Brasil · 2026</span>

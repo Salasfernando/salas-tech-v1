@@ -1,0 +1,175 @@
+/* ==========================================================================
+   RESPONSIVIDADE E PREFERS-REDUCED-MOTION (DESKTOP COMPACTO, TABLET E MOBILE)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .topbar {
+    left: 58px;
+  }
+
+  .skip-link {
+    left: 16px;
+  }
+
+  .case-header-nav > a,
+  .resume-header-actions > a:not([download]):not([href*="curriculo"]) {
+    display: none;
+  }
+
+  .process-hero .hero-visual {
+    right: -18vw !important;
+    width: 68vw !important;
+    opacity: 0.48;
+  }
+
+  .resume-hero {
+    grid-template-columns: 1fr !important;
+  }
+
+  .case-switcher-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stack-row {
+    grid-template-columns: 38px 38px 1fr 24px !important;
+  }
+
+  .stack-note-group {
+    grid-column: 3 / 5;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  .about-image {
+    grid-column: auto !important;
+    width: min(440px, 100%) !important;
+    margin: 8px 0 0 !important;
+  }
+
+  .article-row {
+    grid-template-columns: 44px 1fr auto !important;
+    gap: 18px !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .mobile-nav--open {
+    z-index: 79 !important;
+    left: 58px;
+  }
+}
+
+@media (max-width: 620px) {
+  .topbar {
+    left: 0;
+  }
+
+  .mobile-nav--open {
+    left: 0;
+  }
+
+  .hero h1,
+  .process-hero h1 {
+    font-size: clamp(2.65rem, 9.8vw, 3.85rem) !important;
+  }
+
+  .about h2,
+  .stack-intro h2,
+  .projects-heading h2,
+  .articles-heading h2,
+  .brand-kit h2,
+  .contact-content h2 {
+    font-size: 2.85rem;
+  }
+
+  .case-hero h1 {
+    font-size: 3.05rem;
+  }
+
+  .company-hero-copy h1 {
+    font-size: clamp(3rem, 12.7vw, 4.7rem);
+  }
+
+  .case-switcher-grid,
+  .resume-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .stack-row {
+    grid-template-columns: 30px 34px 1fr 20px !important;
+    gap: 12px !important;
+    padding: 18px 12px !important;
+  }
+
+  .stack-note-group {
+    grid-column: 2 / 5 !important;
+  }
+
+  .stack-row p {
+    display: block !important;
+    font-size: 12px !important;
+  }
+
+  .about-facts {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .about-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .about-image {
+    width: 100% !important;
+  }
+
+  .article-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    padding: 22px 16px !important;
+  }
+
+  .article-row:hover,
+  .article-row:focus-visible {
+    padding-left: 20px !important;
+  }
+
+  .article-read-group {
+    justify-content: space-between;
+    padding-top: 8px;
+    border-top: 1px solid rgba(248, 250, 252, 0.1);
+  }
+
+  .articles-footer-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .whatsapp-float.whatsapp-float--motion {
+    right: 16px;
+    bottom: 22px !important;
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html.motion-active .motion-reveal,
+  html.motion-active .motion-reveal.motion-reveal--visible {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

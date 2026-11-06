@@ -56,7 +56,6 @@ class ErrorBoundary extends Component<Props, State> {
               onClick={() => window.location.reload()}
               className={cn("button button--primary")}
             >
-              <RotateCcw size={16} />
               <RotateCcw size={16} /> Recarregar página
             </button>
             <a className="text-link" href="/">

@@ -7,9 +7,10 @@ const contentSecurityPolicy = [
   "script-src-attr 'none'",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
-  "img-src 'self' data:",
+  "img-src 'self' data: blob:",
+  "worker-src 'self' blob:",
   "connect-src 'self'",
-  "frame-src https://etron-energy.vercel.app https://etron-monitoramento.vercel.app https://noc-odontologia.vercel.app https://www.loungeodontologia.com.br https://loungeodontologia.com.br https://www.unovitta.com.br https://unovitta.com.br",
+  "frame-src https://app.salastech.com.br https://etron-energy.vercel.app https://etron-monitoramento.vercel.app https://noc-odontologia.vercel.app https://www.loungeodontologia.com.br https://loungeodontologia.com.br https://www.unovitta.com.br https://unovitta.com.br",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -37,6 +38,8 @@ export function createApp(
       "Permissions-Policy",
       "camera=(), microphone=(), geolocation=()",
     );
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+    res.setHeader("X-Permitted-Cross-Domain-Policies", "none");
     next();
   });
 

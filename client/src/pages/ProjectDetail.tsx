@@ -4,207 +4,37 @@ import {
   Check,
   ExternalLink,
   Github,
+  Layers3,
+  Sparkles,
 } from "lucide-react";
+import { lazy, Suspense } from "react";
 import { Link, useRoute } from "wouter";
+import BrandLockup from "@/components/BrandLockup";
 import SeoHead, { siteUrl } from "@/components/SeoHead";
+import {
+  caseInsights,
+  orderedProjectKeys,
+  projectCases,
+  type CaseKey,
+} from "@/data/projects";
 import { trackEvent } from "@/lib/analytics";
 import NotFound from "@/pages/NotFound";
 
-const cases = {
-  "etron-energy": {
-    index: "02",
-    tag: "ENERGIA / INSTITUCIONAL",
-    title: "E-Tron Energy",
-    subtitle:
-      "Uma presença digital clara para uma empresa que transforma luz em energia.",
-    description:
-      "O desafio era apresentar uma solução de energia solar com clareza comercial e linguagem confiável, sem transformar a experiência em um catálogo genérico.",
-    outcome:
-      "Uma interface institucional direta, responsiva e orientada à descoberta do serviço.",
-    stack: [
-      "React 19.2",
-      "TypeScript",
-      "Vite 7",
-      "Tailwind CSS 4",
-      "Framer Motion",
-      "Radix UI",
-      "Lucide React",
-      "Zod",
-    ],
-    href: "https://etron-energy.vercel.app",
-    code: "",
-    preview: "https://etron-energy.vercel.app",
-    previewImage: "/assets/etron-energy_f8d34623.webp",
-    accent: "ENERGY",
-    cover: "/assets/etron-energy-cover.webp",
-  },
-  "etron-monitoramento": {
-    index: "05",
-    tag: "ENERGIA / PRODUTO",
-    title: "E-Tron Monitoramento",
-    subtitle: "Dados operacionais organizados para decisões mais rápidas.",
-    description:
-      "Um sistema de monitoramento exige mais do que uma tela bonita: a hierarquia precisa tornar o estado da operação legível e acionável.",
-    outcome:
-      "Uma base de produto para aproximar monitoramento, gestão e serviços de energia solar.",
-    stack: [
-      "Next.js 16.3",
-      "React 19.2",
-      "Tailwind CSS 4",
-      "TypeScript 5",
-      "React Hook Form",
-      "Zod",
-    ],
-    href: "https://etron-monitoramento.vercel.app/monitoramento",
-    code: "",
-    preview: "https://etron-monitoramento.vercel.app/monitoramento",
-    previewImage: "/assets/etron-monitoramento_b5650d38.webp",
-    accent: "MONITOR",
-    cover: "/assets/etron-monitoramento-cover.webp",
-  },
-  "noc-odontologia": {
-    index: "04",
-    tag: "SAÚDE / INSTITUCIONAL",
-    title: "NOC Odontologia",
-    subtitle:
-      "Uma experiência digital orientada para tornar serviços e confiança clínica mais fáceis de encontrar.",
-    description:
-      "O projeto precisava equilibrar clareza de serviços, presença institucional e uma jornada simples para quem busca atendimento.",
-    outcome:
-      "Uma plataforma institucional responsiva com arquitetura de conteúdo, linguagem visual consistente e foco em usabilidade.",
-    stack: [
-      "React 19.2",
-      "TypeScript",
-      "Vite 7",
-      "Tailwind CSS 4",
-      "Framer Motion",
-      "React Icons",
-      "Zod",
-    ],
-    href: "https://noc-odontologia.vercel.app",
-    code: "https://github.com/Salasfernando/noc-odontologia",
-    preview: "https://noc-odontologia.vercel.app",
-    previewImage: "/assets/noc-odontologia-preview.webp",
-    accent: "NOC",
-    cover: "/assets/noc-odontologia-cover.webp",
-  },
-  "lounge-odontologia": {
-    index: "01",
-    tag: "SAÚDE / EXPERIÊNCIA",
-    title: "Lounge Odontologia",
-    subtitle:
-      "Meu principal projeto: cuidado clínico traduzido em uma experiência digital acolhedora.",
-    description:
-      "O projeto precisava equilibrar confiança profissional e proximidade humana, guiando o visitante por uma narrativa de cuidado.",
-    outcome:
-      "Um website institucional com foco em experiência, presença digital corporativa e navegação sem ruído.",
-    stack: [
-      "React 19",
-      "Vite 6",
-      "React Router 7",
-      "React Slick",
-      "React Icons",
-      "ESLint",
-    ],
-    href: "https://www.loungeodontologia.com.br",
-    code: "",
-    preview: "https://www.loungeodontologia.com.br",
-    previewImage: "/assets/lounge-odontologia-preview.webp",
-    accent: "CARE",
-    cover: "/assets/lounge-odontologia-cover.webp",
-  },
-  "unovitta-odontologia": {
-    index: "03",
-    tag: "SAÚDE / INSTITUCIONAL",
-    title: "Unovitta Odontologia",
-    subtitle: "Uma identidade digital própria para uma clínica em movimento.",
-    description:
-      "A arquitetura de conteúdo foi pensada para transformar informação clínica em uma jornada simples, confiável e humana.",
-    outcome:
-      "Uma presença digital corporativa com linguagem visual própria e foco na usabilidade.",
-    stack: [
-      "React 19.1",
-      "TypeScript 5.8",
-      "Vite 6",
-      "React Router 7",
-      "React Icons",
-      "ESLint",
-    ],
-    href: "https://www.unovitta.com.br",
-    code: "",
-    preview: "https://www.unovitta.com.br",
-    previewImage: "/assets/unovitta-preview.webp",
-    accent: "SMILE",
-    cover: "/assets/unovitta-odontologia-cover.webp",
-  },
-} as const;
+const NetworkScene3D = lazy(() => import("@/components/NetworkScene3D"));
 
-type CaseKey = keyof typeof cases;
-const caseInsights: Record<CaseKey, { tools: string[]; learnings: string[] }> =
-  {
-    "etron-energy": {
-      tools: [
-        "Vite",
-        "Tailwind CSS",
-        "Framer Motion",
-        "Radix UI",
-        "Lucide React",
-        "Zod",
-      ],
-      learnings: [
-        "Como transformar energia solar em uma narrativa digital clara.",
-        "Como equilibrar conversão comercial, hierarquia visual e performance.",
-        "Como usar movimento com intenção para orientar a leitura sem competir com a mensagem.",
-      ],
-    },
-    "etron-monitoramento": {
-      tools: [
-        "Next.js",
-        "Tailwind CSS",
-        "TypeScript",
-        "React Hook Form",
-        "Zod",
-      ],
-      learnings: [
-        "Como tornar estados operacionais legíveis para decisões rápidas.",
-        "Como estruturar formulários e validações em um fluxo de produto.",
-        "Como aproximar dados, operação e serviço em uma mesma experiência.",
-      ],
-    },
-    "noc-odontologia": {
-      tools: ["Vite", "Tailwind CSS", "Framer Motion", "React Icons", "Zod"],
-      learnings: [
-        "Como construir confiança clínica sem sobrecarregar a navegação.",
-        "Como organizar serviços e informação institucional em blocos escaneáveis.",
-        "Como combinar precisão visual, acessibilidade e ritmo editorial.",
-      ],
-    },
-    "lounge-odontologia": {
-      tools: ["Vite", "React Router", "React Slick", "React Icons", "ESLint"],
-      learnings: [
-        "Como traduzir acolhimento clínico em uma experiência digital consistente.",
-        "Como usar imagens, depoimentos institucionais e chamadas para guiar a jornada.",
-        "Como transformar um projeto independente em uma presença corporativa viva.",
-      ],
-    },
-    "unovitta-odontologia": {
-      tools: ["Vite", "React Router", "TypeScript", "React Icons", "ESLint"],
-      learnings: [
-        "Como criar uma identidade própria para uma clínica em movimento.",
-        "Como organizar conteúdo de saúde com clareza e proximidade.",
-        "Como manter consistência entre linguagem visual, componentes e responsividade.",
-      ],
-    },
-  };
 export default function ProjectDetail() {
   const [, params] = useRoute("/projetos/:slug");
   const requestedSlug = params?.slug || "";
-  if (!Object.hasOwn(cases, requestedSlug)) {
+  if (!Object.hasOwn(projectCases, requestedSlug)) {
     return <NotFound />;
   }
   const projectKey = requestedSlug as CaseKey;
-  const project = cases[projectKey];
+  const project = projectCases[projectKey];
   const insights = caseInsights[projectKey] || caseInsights["etron-energy"];
+  const currentIdx = orderedProjectKeys.indexOf(projectKey);
+  const nextKey =
+    orderedProjectKeys[(currentIdx + 1) % orderedProjectKeys.length];
+  const nextProject = projectCases[nextKey];
   const path = `/projetos/${projectKey}`;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -240,6 +70,7 @@ export default function ProjectDetail() {
       },
     ],
   };
+
   return (
     <>
       <SeoHead
@@ -250,14 +81,18 @@ export default function ProjectDetail() {
       />
       <div className="case-page">
         <header className="case-header">
-          <Link href="/" className="case-back">
+          <Link href="/#projetos" className="case-back">
             <ArrowLeft size={16} /> voltar para projetos
           </Link>
-          <Link href="/" className="wordmark">
-            <span>SALAS</span>
-            <em>TECH</em>
-          </Link>
-          <span className="case-counter">{project.index} / 05</span>
+          <BrandLockup href="/" />
+          <nav className="case-header-nav" aria-label="Navegação rápida">
+            <Link href="/#servicos">Serviços</Link>
+            <Link href="/#projetos">Projetos</Link>
+            <Link href="/#sobre">Sobre</Link>
+            <Link href="/processo">Processo</Link>
+            <Link href="/curriculo">Currículo</Link>
+            <span className="case-counter">{project.index} / 06</span>
+          </nav>
         </header>
         <main className="case-main">
           <div className="case-kicker">
@@ -267,7 +102,8 @@ export default function ProjectDetail() {
           <section className="case-hero">
             <div>
               <p className="eyebrow">
-                <span className="status-dot" /> projeto em produção
+                <span className="status-dot" /> projeto em produção ·{" "}
+                {project.accent}
               </p>
               <h1>
                 {project.title}
@@ -278,7 +114,7 @@ export default function ProjectDetail() {
                 <a
                   href={project.href}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="button button--primary"
                   onClick={() =>
                     trackEvent("project_live_clicked", { project: projectKey })
@@ -290,7 +126,7 @@ export default function ProjectDetail() {
                   <a
                     href={project.code}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="case-code"
                     onClick={() =>
                       trackEvent("project_github_clicked", {
@@ -303,7 +139,7 @@ export default function ProjectDetail() {
                 )}
               </div>
             </div>
-            <div className="case-art">
+            <div className="case-art case-art--3d">
               <img
                 className="case-art-cover"
                 src={project.cover}
@@ -311,10 +147,19 @@ export default function ProjectDetail() {
               />
               <div className="case-art-overlay" />
               <div className="case-art-grid" />
+              <Suspense fallback={null}>
+                <NetworkScene3D
+                  variant="case"
+                  hudLabel={`CASE.${project.index} // ${project.accent}`}
+                />
+              </Suspense>
+              <strong className="case-art-watermark" aria-hidden="true">
+                {project.accent}
+              </strong>
               <span>
                 BUILD / 2026
                 <br />
-                SALAS TECH
+                SALAS TECH · 3D CORE
               </span>
             </div>
           </section>
@@ -322,20 +167,20 @@ export default function ProjectDetail() {
             className="case-dossier-signal"
             aria-label="Resumo técnico do case"
           >
-            <div>
-              <span>ROLE</span>
+            <div className="case-signal-card">
+              <span>01 / ROLE</span>
               <strong>FULL STACK / PRODUCT</strong>
             </div>
-            <div>
-              <span>SEGMENTO</span>
+            <div className="case-signal-card">
+              <span>02 / SEGMENTO</span>
               <strong>{project.tag}</strong>
             </div>
-            <div>
-              <span>STACK</span>
+            <div className="case-signal-card">
+              <span>03 / STACK</span>
               <strong>{project.stack.slice(0, 3).join(" · ")}</strong>
             </div>
-            <div>
-              <span>STATUS</span>
+            <div className="case-signal-card">
+              <span>04 / STATUS</span>
               <strong>
                 <i /> LIVE / PUBLIC
               </strong>
@@ -352,7 +197,7 @@ export default function ProjectDetail() {
               <a
                 href={project.preview}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 onClick={() =>
                   trackEvent("project_preview_clicked", { project: projectKey })
                 }
@@ -368,13 +213,20 @@ export default function ProjectDetail() {
                   <i />
                 </span>
                 <small>{project.preview.replace("https://", "")}</small>
-                <span className="preview-live">LIVE</span>
+                <a
+                  href={project.preview}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="preview-live preview-live--link"
+                >
+                  ABRIR AO VIVO ↗
+                </a>
               </div>
               <a
                 className="case-preview-image-link"
                 href={project.preview}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 onClick={() =>
                   trackEvent("project_preview_clicked", { project: projectKey })
                 }
@@ -384,13 +236,16 @@ export default function ProjectDetail() {
                   alt={`Prévia visual do site ${project.title}`}
                 />
                 <span>
-                  abrir projeto <ArrowUpRight size={16} />
+                  interagir com o projeto ao vivo <ArrowUpRight size={16} />
                 </span>
               </a>
             </div>
           </section>
           <section className="case-body">
-            <div className="case-label">/ o contexto</div>
+            <div className="case-label">
+              <Layers3 size={16} aria-hidden="true" /> / arquitetura &amp;
+              contexto
+            </div>
             <div className="case-copy">
               <p className="case-lead">{project.description}</p>
               <p>
@@ -400,7 +255,7 @@ export default function ProjectDetail() {
               </p>
             </div>
             <aside className="case-spec">
-              <span>STACK PRINCIPAL</span>
+              <span>STACK &amp; TECNOLOGIAS</span>
               {project.stack.map((item) => (
                 <strong key={item}>
                   <Check size={14} /> {item}
@@ -412,7 +267,7 @@ export default function ProjectDetail() {
                   <a
                     href={project.code}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     onClick={() =>
                       trackEvent("project_github_clicked", {
                         project: projectKey,
@@ -431,7 +286,10 @@ export default function ProjectDetail() {
           </section>
           <section className="case-learning">
             <div className="case-learning-heading">
-              <span>/ prática de construção</span>
+              <span>
+                <Sparkles size={13} aria-hidden="true" /> / prática de
+                construção
+              </span>
               <h2>
                 Ferramentas que
                 <br />
@@ -444,7 +302,7 @@ export default function ProjectDetail() {
               </p>
             </div>
             <div className="case-learning-grid">
-              <div>
+              <div className="case-learning-card">
                 <span>FERRAMENTAS EM USO</span>
                 {insights.tools.map((tool) => (
                   <strong key={tool}>
@@ -452,7 +310,7 @@ export default function ProjectDetail() {
                   </strong>
                 ))}
               </div>
-              <div>
+              <div className="case-learning-card">
                 <span>O QUE FICOU</span>
                 {insights.learnings.map((learning) => (
                   <p key={learning}>
@@ -462,13 +320,38 @@ export default function ProjectDetail() {
               </div>
             </div>
           </section>
+          <section className="case-switcher" aria-label="Todos os projetos">
+            <div className="case-switcher-head">
+              <span>NAVEGAR PELOS CASES PUBLICADOS (06)</span>
+              <Link href="/#projetos">
+                ver lista na home <ArrowUpRight size={14} />
+              </Link>
+            </div>
+            <div className="case-switcher-grid">
+              {orderedProjectKeys.map((key) => {
+                const item = projectCases[key];
+                const isActive = key === projectKey;
+                return (
+                  <Link
+                    key={key}
+                    href={`/projetos/${key}`}
+                    className={`case-switcher-card ${isActive ? "case-switcher-card--active" : ""}`}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    <span>
+                      {item.index} · {item.accent}
+                    </span>
+                    <strong>{item.title}</strong>
+                    <small>{item.tag}</small>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
           <section className="case-next">
             <span>PRÓXIMO NA TRILHA</span>
-            <Link
-              href="/projetos/lounge-odontologia"
-              className="case-next-link"
-            >
-              explorar outro projeto <ArrowUpRight size={17} />
+            <Link href={`/projetos/${nextKey}`} className="case-next-link">
+              explorar {nextProject.title} <ArrowUpRight size={17} />
             </Link>
           </section>
         </main>

@@ -3,30 +3,30 @@ import {
   ArrowLeft,
   ArrowUpRight,
   Check,
+  Code2,
+  FolderGit2,
   Github,
+  Layers3,
   Linkedin,
   MapPin,
   MessageCircle,
+  Sparkles,
 } from "lucide-react";
+import { lazy, Suspense } from "react";
 import { Link } from "wouter";
 import BrandLockup from "@/components/BrandLockup";
 import SeoHead, { siteUrl } from "@/components/SeoHead";
+import {
+  cvUrl,
+  resumeChecksEn,
+  resumeEducationEn,
+  resumeMetricsEn,
+  resumeProjectsEn,
+  resumeSkillsEn,
+} from "@/data/resume";
 import { CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/contact";
 
-const cvUrl = "/assets/fernando-salas-curriculo-v4.pdf";
-const skills = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Node.js",
-  "PostgreSQL",
-  "Prisma",
-  "REST APIs",
-  "Process automation",
-  "AI workflows",
-  "Git / GitHub",
-  "Vercel",
-];
+const NetworkScene3D = lazy(() => import("@/components/NetworkScene3D"));
 
 export default function EnglishResume() {
   const jsonLd = {
@@ -47,6 +47,7 @@ export default function EnglishResume() {
     },
     inLanguage: "en",
   };
+
   return (
     <>
       <SeoHead
@@ -63,6 +64,10 @@ export default function EnglishResume() {
           </Link>
           <BrandLockup href="/en" />
           <div className="resume-header-actions">
+            <Link href="/en#services-en">Services</Link>
+            <Link href="/en#work-en">Work</Link>
+            <Link href="/en#about-en">About</Link>
+            <Link href="/processo">Process</Link>
             <Link href="/curriculo">
               PT <span>↗</span>
             </Link>
@@ -74,7 +79,7 @@ export default function EnglishResume() {
         <main className="resume-main">
           <div className="case-kicker">
             <span>CV / FERNANDO SALAS FERREIRA</span>
-            <span>UPDATED 2026</span>
+            <span>UPDATED 2026 · SALAS TECH</span>
           </div>
           <section className="resume-hero">
             <div>
@@ -87,27 +92,39 @@ export default function EnglishResume() {
                 <span>Salas.</span>
               </h1>
               <p>
-                I build websites, web products, systems and automation. My work
-                combines Full Stack development with attention to user
-                experience, operations and digital workflows that address real
-                needs.
+                I build websites, web products, multi-tenant SaaS platforms and
+                AI-powered automation. My work combines Full Stack engineering
+                with attention to architecture, operations and digital workflows
+                that solve real business problems.
               </p>
+              <div className="resume-metrics">
+                {resumeMetricsEn.map((metric) => (
+                  <div className="resume-metric-card" key={metric.label}>
+                    <span>{metric.label}</span>
+                    <strong>{metric.value}</strong>
+                  </div>
+                ))}
+              </div>
               <div className="resume-links">
-                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <MessageCircle size={16} /> WhatsApp{" "}
                   <ArrowUpRight size={14} />
                 </a>
                 <a
                   href="https://github.com/Salasfernando"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   <Github size={16} /> GitHub <ArrowUpRight size={14} />
                 </a>
                 <a
                   href="https://www.linkedin.com/in/salas-fernando"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   <Linkedin size={16} /> LinkedIn <ArrowUpRight size={14} />
                 </a>
@@ -119,85 +136,120 @@ export default function EnglishResume() {
                 <span>{CONTACT_EMAIL}</span>
               </div>
             </div>
-            <div className="resume-stamp">
-              <strong>
-                FULL
-                <br />
-                STACK
-                <br />+ AUTO
-              </strong>
-              <span>
-                BR · DF
-                <br />
-                SINCE 2023
-              </span>
+            <div className="resume-visual-3d" aria-hidden="true">
+              <Suspense fallback={null}>
+                <NetworkScene3D variant="resume" />
+              </Suspense>
+              <div className="resume-stamp">
+                <strong>
+                  FULL
+                  <br />
+                  STACK
+                  <br />+ AUTO
+                </strong>
+                <span>
+                  BR · DF
+                  <br />
+                  SINCE 2023
+                </span>
+              </div>
             </div>
           </section>
+
           <section className="resume-grid">
-            <div className="resume-label">/ experience</div>
-            <div className="resume-entry">
+            <div className="resume-label">
+              <Layers3 size={15} aria-hidden="true" /> / experience
+            </div>
+            <div className="resume-entry resume-card-interactive">
               <div>
                 <span>JUN 2023 — PRESENT</span>
                 <h2>Salas Tech</h2>
-                <p>Founder · Full Stack Developer</p>
+                <p>Founder · Full Stack &amp; Automation Developer</p>
               </div>
               <div className="resume-detail">
                 <p>
                   I lead digital projects from problem definition through
-                  delivery: institutional websites, web products, systems and
-                  automation for businesses.
+                  production delivery: multi-tenant SaaS platforms with AI and
+                  CRM, web products, operational systems, institutional websites
+                  and intelligent automation.
                 </p>
                 <div className="resume-checks">
-                  <span>
-                    <Check size={14} /> Interfaces and applications with React,
-                    Next.js and TypeScript
-                  </span>
-                  <span>
-                    <Check size={14} /> Back-end, relational databases, Prisma
-                    and REST APIs
-                  </span>
-                  <span>
-                    <Check size={14} /> Process automation and AI-enabled
-                    workflows
-                  </span>
+                  {resumeChecksEn.map((check) => (
+                    <span key={check}>
+                      <Check size={14} /> {check}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
           </section>
+
           <section className="resume-grid">
-            <div className="resume-label">/ education</div>
-            <div className="resume-education">
-              <div>
-                <span>IN PROGRESS · 2ND SEMESTER</span>
-                <h2>Systems Analysis &amp; Development · UNINTER</h2>
-                <p>Technology degree</p>
-              </div>
-              <div>
-                <span>2017 — 2023</span>
-                <h2>Law · UNIP</h2>
-                <p>Bachelor of Law</p>
-              </div>
-              <div>
-                <span>ADDITIONAL TRAINING</span>
-                <h2>Full Stack Development</h2>
-                <p>Sujeito Programador</p>
-              </div>
+            <div className="resume-label">
+              <FolderGit2 size={15} aria-hidden="true" /> / featured projects
             </div>
-          </section>
-          <section className="resume-grid">
-            <div className="resume-label">/ core skills</div>
-            <div className="resume-tags">
-              {skills.map((skill) => (
-                <span key={skill}>{skill}</span>
+            <div className="resume-projects-list">
+              {resumeProjectsEn.map((project) => (
+                <article className="resume-project-card" key={project.slug}>
+                  <div className="resume-project-head">
+                    <span>
+                      {project.index} · {project.role}
+                    </span>
+                    <div className="resume-project-links">
+                      <Link href={`/projetos/${project.slug}`}>
+                        case study <ArrowUpRight size={13} />
+                      </Link>
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        live preview <ArrowUpRight size={13} />
+                      </a>
+                    </div>
+                  </div>
+                  <h2>{project.title}</h2>
+                  <p>{project.summary}</p>
+                  <small>{project.stack}</small>
+                </article>
               ))}
             </div>
           </section>
+
+          <section className="resume-grid">
+            <div className="resume-label">
+              <Code2 size={15} aria-hidden="true" /> / education
+            </div>
+            <div className="resume-education">
+              {resumeEducationEn.map((edu) => (
+                <div className="resume-edu-card" key={edu.title}>
+                  <span>{edu.period}</span>
+                  <h2>{edu.title}</h2>
+                  <p>{edu.subtitle}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="resume-grid">
+            <div className="resume-label">
+              <Sparkles size={15} aria-hidden="true" /> / core skills
+            </div>
+            <div className="resume-tags">
+              {resumeSkillsEn.map((skill) => (
+                <span key={skill}>
+                  <i aria-hidden="true" /> {skill}
+                </span>
+              ))}
+            </div>
+          </section>
+
           <div className="resume-bottom">
             <a className="button button--primary" href={cvUrl} download>
               Download full résumé (Portuguese) <ArrowDownToLine size={17} />
             </a>
-            <Link href="/en" className="case-back">
-              back to portfolio <ArrowUpRight size={15} />
+            <Link href="/en#work-en" className="case-back">
+              explore selected work <ArrowUpRight size={15} />
             </Link>
           </div>
         </main>

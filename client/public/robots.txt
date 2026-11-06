@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /404
+Disallow: /manutencao
+Disallow: /orcamento
 
 Sitemap: https://www.salastech.com.br/sitemap.xml

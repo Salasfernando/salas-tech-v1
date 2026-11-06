@@ -7,7 +7,7 @@ export default function WhatsAppFloat() {
       className="whatsapp-float whatsapp-float--motion"
       href={WHATSAPP_URL}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       aria-label="Falar com a Salas Tech pelo WhatsApp"
       aria-describedby="whatsapp-tooltip"
       onClick={() =>

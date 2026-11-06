@@ -1,98 +1,40 @@
 import {
   ArrowUpRight,
   Check,
-  Code2,
-  Github,
-  Linkedin,
+  Compass,
+  Layers3,
   Menu,
   MessageCircle,
+  ShieldCheck,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "wouter";
 import BrandLockup from "@/components/BrandLockup";
+import BrandMark from "@/components/BrandMark";
+import SiteFooter from "@/components/layout/SiteFooter";
+import SiteSideRail from "@/components/layout/SiteSideRail";
 import SeoHead, { siteUrl } from "@/components/SeoHead";
-import { CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/contact";
+import { englishProjects } from "@/data/projects";
+import { englishServices } from "@/data/servicesDetail";
+import { techStackEn } from "@/data/stack";
 import { trackEvent } from "@/lib/analytics";
+import { CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/contact";
 
-const services = [
-  {
-    index: "01",
-    title: "Institutional websites",
-    copy: "Clear, responsive websites that present your business, build trust and make the next step easy.",
-  },
-  {
-    index: "02",
-    title: "Web products",
-    copy: "Applications and digital experiences shaped around the people who use them and the goals they support.",
-  },
-  {
-    index: "03",
-    title: "Systems & operations",
-    copy: "Tools, dashboards and workflows that organize information and support day-to-day decisions.",
-  },
-  {
-    index: "04",
-    title: "Automation",
-    copy: "Processes and integrations that reduce repetitive work and connect business steps more consistently.",
-  },
-];
-
-const projects = [
-  {
-    index: "01",
-    title: "Lounge Odontologia",
-    meta: "Healthcare / Experience",
-    href: "https://www.loungeodontologia.com.br",
-    image: "/assets/lounge-odontologia-preview.webp",
-    alt: "Public preview of Lounge Odontologia website",
-  },
-  {
-    index: "02",
-    title: "E-Tron Energy",
-    meta: "Energy / Institutional",
-    href: "https://etron-energy.vercel.app",
-    image: "/assets/etron-energy_f8d34623.webp",
-    alt: "Preview of E-Tron Energy website",
-  },
-  {
-    index: "03",
-    title: "Unovitta Odontologia",
-    meta: "Healthcare / Institutional",
-    href: "https://www.unovitta.com.br",
-    image: "/assets/unovitta-preview.webp",
-    alt: "Preview of Unovitta Odontologia website",
-  },
-  {
-    index: "04",
-    title: "NOC Odontologia",
-    meta: "Healthcare / Institutional",
-    href: "https://noc-odontologia.vercel.app",
-    image: "/assets/noc-odontologia-preview.webp",
-    alt: "Preview of NOC Odontologia website",
-  },
-  {
-    index: "05",
-    title: "E-Tron Monitoring",
-    meta: "Energy / Product",
-    href: "https://etron-monitoramento.vercel.app/monitoramento",
-    image: "/assets/etron-monitoramento_b5650d38.webp",
-    alt: "Preview of E-Tron Monitoring product",
-  },
-];
-
-const stack = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Node.js",
-  "PostgreSQL + Prisma",
-  "Automation + AI workflows",
-];
+const NetworkScene3D = lazy(() => import("@/components/NetworkScene3D"));
 
 export default function EnglishHome() {
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [menuOpen]);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -108,6 +50,7 @@ export default function EnglishHome() {
       "https://www.instagram.com/salas_tech",
     ],
   };
+
   return (
     <>
       <SeoHead
@@ -117,47 +60,10 @@ export default function EnglishHome() {
         jsonLd={jsonLd}
       />
       <div className="site-shell">
-        <aside className="side-rail">
-          <Link href="/en" className="rail-logo" aria-label="Salas Tech home">
-            <img
-              className="official-mark official-mark--small"
-              src="/assets/Logo%20Salas%20Tech.png"
-              alt="Salas Tech official logo"
-            />
-          </Link>
-          <div className="rail-line" />
-          <span className="rail-caption">
-            FULL STACK
-            <br />
-            &amp; AUTO
-          </span>
-          <div className="rail-socials">
-            <a
-              href="https://github.com/Salasfernando"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-            >
-              <Github size={16} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/salas-fernando"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={16} />
-            </a>
-            <a
-              href="https://www.instagram.com/salas_tech"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
-            >
-              ◎
-            </a>
-          </div>
-        </aside>
+        <a href="#top" className="skip-link">
+          Skip to main content
+        </a>
+        <SiteSideRail locale="en" />
         <main>
           <header className="topbar">
             <BrandLockup href="/en" className="topbar-brand" />
@@ -210,6 +116,7 @@ export default function EnglishHome() {
               Português
             </Link>
           </nav>
+
           <section id="top" className="hero section-pad">
             <div className="hero-copy reveal-up">
               <p className="eyebrow">
@@ -233,7 +140,7 @@ export default function EnglishHome() {
                   className="button button--primary"
                   href={WHATSAPP_URL}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   onClick={() =>
                     trackEvent("whatsapp_clicked", {
                       source: "english_home_hero",
@@ -247,20 +154,18 @@ export default function EnglishHome() {
                 </a>
               </div>
             </div>
-            <div className="hero-visual" aria-hidden="true">
-              <img
-                src="/assets/salas-tech-network-hero_fbaebdef.png"
-                alt=""
-                fetchPriority="high"
-                decoding="async"
-              />
-            </div>
+            <Suspense
+              fallback={<div className="hero-visual" aria-hidden="true" />}
+            >
+              <NetworkScene3D />
+            </Suspense>
             <div className="hero-meta">
               <span>01 — SALAS TECH</span>
               <span>BRASÍLIA · BRAZIL</span>
               <span>SINCE 2023</span>
             </div>
           </section>
+
           <section
             id="services-en"
             className="company-services home-services section-pad section-light"
@@ -283,21 +188,28 @@ export default function EnglishHome() {
               </p>
             </div>
             <div className="service-grid">
-              {services.map((service) => (
-                <article className="service-card reveal-up" key={service.index}>
-                  <span className="service-index">{service.index}</span>
-                  <div className="service-icon">
-                    <Code2 size={20} aria-hidden="true" />
-                  </div>
-                  <h3>{service.title}</h3>
-                  <p>{service.copy}</p>
-                  <ArrowUpRight
-                    className="service-arrow"
-                    size={20}
-                    aria-hidden="true"
-                  />
-                </article>
-              ))}
+              {englishServices.map((service) => {
+                const Icon = service.icon;
+                return (
+                  <Link
+                    className="service-card"
+                    href={`/servicos/${service.slug}`}
+                    key={service.index}
+                    aria-label={`Learn more about ${service.title}`}
+                  >
+                    <span className="service-index">{service.index}</span>
+                    <div className="service-icon">
+                      <Icon size={20} aria-hidden="true" />
+                    </div>
+                    <h3>{service.title}</h3>
+                    <p>{service.copy}</p>
+                    <span className="service-card-cta">
+                      Explore service
+                      <ArrowUpRight size={16} aria-hidden="true" />
+                    </span>
+                  </Link>
+                );
+              })}
             </div>
             <p className="home-services-link">
               <Link className="text-link" href="/empresa">
@@ -305,6 +217,7 @@ export default function EnglishHome() {
               </Link>
             </p>
           </section>
+
           <section
             id="work-en"
             className="projects-section section-pad section-light"
@@ -327,12 +240,12 @@ export default function EnglishHome() {
               </p>
             </div>
             <div className="projects-list">
-              {projects.map((project) => (
+              {englishProjects.map((project) => (
                 <a
-                  className="project-row"
+                  className={`project-row ${project.featured ? "project-row--featured" : ""}`}
                   href={project.href}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   key={project.title}
                 >
                   <span className="project-index">{project.index}</span>
@@ -345,9 +258,14 @@ export default function EnglishHome() {
                     <img
                       src={project.image}
                       alt={project.alt}
+                      width={640}
+                      height={400}
                       loading="lazy"
                       decoding="async"
                     />
+                    <span className="project-preview-badge" aria-hidden="true">
+                      <i /> LIVE PREVIEW ↗
+                    </span>
                   </div>
                   <div className="project-side">
                     <span>{project.meta}</span>
@@ -363,6 +281,7 @@ export default function EnglishHome() {
               ))}
             </div>
           </section>
+
           <section id="stack-en" className="stack-section section-pad">
             <div className="section-kicker">
               <span>03 / TECHNICAL FOUNDATION</span>
@@ -382,17 +301,35 @@ export default function EnglishHome() {
               </p>
             </div>
             <div className="stack-list">
-              {stack.map((name, index) => (
-                <div className="stack-row" key={name}>
-                  <span className="stack-index">0{index + 1}</span>
-                  <Code2 size={18} className="stack-icon" aria-hidden="true" />
-                  <h3>{name}</h3>
-                  <p>Built with intention</p>
-                  <Check size={17} className="stack-check" aria-hidden="true" />
-                </div>
-              ))}
+              {techStackEn.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <div className="stack-row" key={item.name}>
+                    <span className="stack-index">0{index + 1}</span>
+                    <div className="stack-icon-box" aria-hidden="true">
+                      <Icon size={18} className="stack-icon" />
+                    </div>
+                    <div className="stack-title-group">
+                      <span className="stack-domain">{item.domain}</span>
+                      <h3>{item.name}</h3>
+                    </div>
+                    <div className="stack-note-group">
+                      <p>{item.note}</p>
+                      <div className="stack-meter" aria-hidden="true">
+                        <span className="stack-meter-fill" />
+                      </div>
+                    </div>
+                    <Check
+                      size={17}
+                      className="stack-check"
+                      aria-hidden="true"
+                    />
+                  </div>
+                );
+              })}
             </div>
           </section>
+
           <section id="about-en" className="about section-pad section-light">
             <div className="section-kicker">
               <span>04 / ABOUT THE BRAND</span>
@@ -402,12 +339,40 @@ export default function EnglishHome() {
             </div>
             <div className="about-grid">
               <div className="about-heading">
-                <p className="display-note">/ background</p>
+                <p className="display-note">
+                  <span className="status-dot" /> / background
+                </p>
                 <h2>
                   Systems thinking,
                   <br />
                   <span>in practice.</span>
                 </h2>
+                <Link href="/empresa" className="about-brand-seal">
+                  <BrandMark small />
+                  <div>
+                    <strong>
+                      SALAS TECH · DIGITAL ENGINEERING{" "}
+                      <ArrowUpRight size={13} aria-hidden="true" />
+                    </strong>
+                    <span>
+                      Clear architecture, clean code and business focus
+                    </span>
+                  </div>
+                </Link>
+                <div className="about-pillars">
+                  <span>
+                    <Compass size={14} aria-hidden="true" /> Clear diagnosis
+                    before writing code
+                  </span>
+                  <span>
+                    <Layers3 size={14} aria-hidden="true" /> Interfaces, APIs,
+                    data and AI working together
+                  </span>
+                  <span>
+                    <ShieldCheck size={14} aria-hidden="true" /> Security,
+                    performance and maintainability
+                  </span>
+                </div>
               </div>
               <div className="about-body">
                 <p className="lead">
@@ -420,53 +385,84 @@ export default function EnglishHome() {
                   to digital decisions.
                 </p>
                 <div className="about-facts">
-                  <div>
-                    <span>BASED IN</span>
+                  <Link href="/empresa" className="about-fact-card">
+                    <span className="about-fact-label">01 / BASED IN ↗</span>
                     <strong>
                       Brasília
                       <br />
-                      Brazil
+                      Brazil (DF)
                     </strong>
-                  </div>
-                  <div>
-                    <span>ACTIVE SINCE</span>
+                  </Link>
+                  <Link href="/empresa" className="about-fact-card">
+                    <span className="about-fact-label">
+                      02 / ACTIVE SINCE ↗
+                    </span>
                     <strong>
                       June
                       <br />
                       2023
                     </strong>
-                  </div>
-                  <div>
-                    <span>FOCUS</span>
+                  </Link>
+                  <Link href="/empresa" className="about-fact-card">
+                    <span className="about-fact-label">03 / FOCUS ↗</span>
                     <strong>
                       Web · Systems
                       <br />
-                      Automation
+                      Automation &amp; AI
                     </strong>
-                  </div>
+                  </Link>
                 </div>
-                <Link
-                  className="text-link about-resume-link"
-                  href="/en/curriculo"
-                >
-                  View résumé <ArrowUpRight size={15} />
-                </Link>
+                <div className="about-actions">
+                  <Link className="button button--about" href="/empresa">
+                    About Salas Tech <ArrowUpRight size={15} />
+                  </Link>
+                  <Link
+                    className="text-link about-resume-link"
+                    href="/en/curriculo"
+                  >
+                    View résumé <ArrowUpRight size={15} />
+                  </Link>
+                  <Link
+                    className="text-link about-resume-link"
+                    href="/processo"
+                  >
+                    How we work <ArrowUpRight size={15} />
+                  </Link>
+                </div>
               </div>
               <div className="about-image">
-                <img
-                  src="/assets/salas-tech-thinking-system_6c46407b.png"
-                  alt="Editorial composition about systems thinking"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <span>
-                  SALAS TECH
-                  <br />
-                  FULL STACK &amp; AUTOMATION
-                </span>
+                <Link
+                  href="/empresa"
+                  className="about-image-frame"
+                  aria-label="Learn more about Salas Tech"
+                >
+                  <div className="about-image-topbar" aria-hidden="true">
+                    <span>
+                      <i />
+                      <i />
+                      <i />
+                    </span>
+                    <small>SALAS.TECH // SYSTEMS.THINKING</small>
+                  </div>
+                  <img
+                    src="/assets/salas-tech-thinking-system_6c46407b.png"
+                    alt="Editorial composition about systems thinking"
+                    width={640}
+                    height={640}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="about-image-caption">
+                    <span>
+                      <i className="about-live-dot" /> SALAS TECH
+                    </span>
+                    <strong>OPEN ABOUT PAGE ↗</strong>
+                  </div>
+                </Link>
               </div>
             </div>
           </section>
+
           <section className="contact-section section-pad">
             <div className="section-kicker">
               <span>05 / CONTACT</span>
@@ -487,7 +483,7 @@ export default function EnglishHome() {
                 className="button button--primary"
                 href={WHATSAPP_URL}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 onClick={() =>
                   trackEvent("whatsapp_clicked", {
                     source: "english_home_contact",
@@ -503,44 +499,7 @@ export default function EnglishHome() {
               <span>SINCE 2023</span>
             </div>
           </section>
-          <footer className="footer">
-            <div className="footer-main">
-              <BrandLockup href="/en" className="footer-brand" />
-              <nav className="footer-links" aria-label="Footer links">
-                <Link href="/">Português</Link>
-                <Link href="/en/curriculo">Résumé</Link>
-                <Link href="/cartao">Digital card</Link>
-                <Link href="/marca">Brand assets</Link>
-                <Link href="/privacidade">Privacy</Link>
-                <Link href="/termos-de-uso">Terms</Link>
-                <a
-                  href="https://github.com/Salasfernando"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  GitHub
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/salas-fernando"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  LinkedIn
-                </a>
-                <a
-                  href="https://www.instagram.com/salas_tech"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Instagram
-                </a>
-              </nav>
-            </div>
-            <div className="footer-credit">
-              <span>Full Stack &amp; Automation · Brasília, Brazil</span>
-              <strong>Developed by Salas Tech</strong>
-            </div>
-          </footer>
+          <SiteFooter locale="en" />
         </main>
       </div>
     </>

@@ -3,8 +3,8 @@ import { ArrowLeft, ArrowUpRight, MessageCircle } from "lucide-react";
 import { Link } from "wouter";
 import BrandLockup from "@/components/BrandLockup";
 import SeoHead, { siteUrl } from "@/components/SeoHead";
-import { WHATSAPP_URL } from "@/lib/contact";
 import { trackEvent } from "@/lib/analytics";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 export default function QuotePage() {
   useEffect(() => {
@@ -19,12 +19,14 @@ export default function QuotePage() {
     description: "Contato comercial pelo WhatsApp oficial da Salas Tech.",
     url: `${siteUrl}/orcamento`,
   };
+
   return (
     <>
       <SeoHead
         title="Contato pelo WhatsApp — Salas Tech"
         description="A rota de orçamento da Salas Tech encaminha a conversa diretamente ao WhatsApp oficial, sem formulário."
         path="/orcamento"
+        noIndex
         jsonLd={jsonLd}
       />
       <main className="quote-page">
@@ -60,7 +62,7 @@ export default function QuotePage() {
                 className="button button--primary"
                 href={WHATSAPP_URL}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 <MessageCircle size={17} /> Continuar no WhatsApp
               </a>

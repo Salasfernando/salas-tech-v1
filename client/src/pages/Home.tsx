@@ -1,146 +1,53 @@
 import {
   ArrowUpRight,
+  BookOpen,
   Check,
-  Code2,
-  Github,
-  Linkedin,
+  Compass,
+  Layers3,
   MapPin,
   Menu,
   MessageCircle,
+  ShieldCheck,
+  Terminal,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "wouter";
 import BrandLockup from "@/components/BrandLockup";
+import BrandMark from "@/components/BrandMark";
+import SiteFooter from "@/components/layout/SiteFooter";
+import SiteSideRail from "@/components/layout/SiteSideRail";
 import SeoHead, { siteUrl } from "@/components/SeoHead";
+import { homeNoteFilters } from "@/data/notesContent";
+import { homeProjects } from "@/data/projects";
+import { techStackPt } from "@/data/stack";
+import { trackEvent } from "@/lib/analytics";
 import { articles } from "@/lib/articles";
 import { CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/contact";
+import { filterArticles, type NoteFilter } from "@/lib/noteFilters";
 import { services } from "@/lib/services";
-import { trackEvent } from "@/lib/analytics";
 
-const projects = [
-  {
-    index: "01",
-    slug: "lounge-odontologia",
-    featured: true,
-    title: "Lounge Odontologia",
-    type: "Experiência institucional",
-    description:
-      "Website corporativo criado para transformar cuidado clínico em uma experiência digital acolhedora.",
-    stack: "React 19 · Vite · React Router · React Slick",
-    href: "https://www.loungeodontologia.com.br",
-    tag: "Saúde",
-    previewImage: "/assets/lounge-odontologia-preview.webp",
-    previewAlt: "Prévia pública do site Lounge Odontologia",
-  },
-  {
-    index: "02",
-    slug: "etron-energy",
-    title: "E-Tron Energy",
-    type: "Plataforma institucional",
-    description:
-      "Presença digital para uma empresa de energia solar, com foco em clareza comercial, performance e confiança.",
-    stack: "React · TypeScript · Tailwind CSS",
-    href: "https://etron-energy.vercel.app",
-    tag: "Energia",
-    previewImage: "/assets/etron-energy_f8d34623.webp",
-    previewAlt: "Prévia do projeto E-Tron Energy",
-  },
-  {
-    index: "03",
-    slug: "unovitta-odontologia",
-    title: "Unovitta Odontologia",
-    type: "Presença digital",
-    description:
-      "Plataforma institucional com linguagem visual própria, arquitetura de conteúdo e navegação orientada.",
-    stack: "React · TypeScript · Vite",
-    href: "https://www.unovitta.com.br",
-    tag: "Saúde",
-    previewImage: "/assets/unovitta-preview.webp",
-    previewAlt: "Prévia do projeto Unovitta Odontologia",
-  },
-  {
-    index: "04",
-    slug: "noc-odontologia",
-    title: "NOC Odontologia",
-    type: "Plataforma institucional",
-    description:
-      "Experiência digital que torna serviços e confiança clínica mais fáceis de encontrar.",
-    stack: "React · TypeScript · Tailwind CSS",
-    href: "https://noc-odontologia.vercel.app",
-    tag: "Saúde",
-    previewImage: "/assets/noc-odontologia-preview.webp",
-    previewAlt: "Prévia do projeto NOC Odontologia",
-  },
-  {
-    index: "05",
-    slug: "etron-monitoramento",
-    title: "E-Tron Monitoramento",
-    type: "Sistema de monitoramento",
-    description:
-      "Interface para gestão e serviços de energia solar, aproximando operação, dados e tomada de decisão.",
-    stack: "Next.js · React · TypeScript · Zod",
-    href: "https://etron-monitoramento.vercel.app/monitoramento",
-    tag: "Produto",
-    previewImage: "/assets/etron-monitoramento_b5650d38.webp",
-    previewAlt: "Prévia do projeto E-Tron Monitoramento",
-  },
-];
-
-const stack = [
-  { name: "React", note: "Interfaces e aplicações web" },
-  { name: "Next.js", note: "Produtos preparados para evoluir" },
-  { name: "TypeScript", note: "Clareza antes da complexidade" },
-  { name: "Node.js", note: "APIs e serviços de produto" },
-  { name: "PostgreSQL + Prisma", note: "Dados relacionais e modelagem" },
-  { name: "Automação + IA", note: "Fluxos conectados ao trabalho" },
-];
-
-function BrandMark({ small = false }: { small?: boolean }) {
-  return (
-    <img
-      className={`official-mark ${small ? "official-mark--small" : ""}`}
-      src={
-        small
-          ? "/assets/salas-tech-mark-192.png"
-          : "/assets/salas-tech-mark-512.png"
-      }
-      alt=""
-      aria-hidden="true"
-      decoding="async"
-    />
-  );
-}
+const NetworkScene3D = lazy(() => import("@/components/NetworkScene3D"));
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const heroVisualRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const visual = heroVisualRef.current;
-    if (
-      !visual ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    )
-      return;
-    let frame = 0;
-    const updateParallax = () => {
-      frame = 0;
-      const offset = Math.max(-12, Math.min(12, window.scrollY * 0.035));
-      visual.style.setProperty("--hero-parallax-y", `${offset}px`);
-    };
-    const onScroll = () => {
-      if (!frame) frame = window.requestAnimationFrame(updateParallax);
-    };
-    updateParallax();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, []);
+  const [activeNoteFilter, setActiveNoteFilter] = useState<NoteFilter>("Todas");
 
   const closeMenu = () => setMenuOpen(false);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [menuOpen]);
+
+  const filteredHomeArticles = filterArticles(articles, activeNoteFilter).slice(
+    0,
+    4,
+  );
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -176,43 +83,10 @@ export default function Home() {
         jsonLd={jsonLd}
       />
       <div className="site-shell">
-        <aside className="side-rail">
-          <a href="#top" className="rail-logo" aria-label="Salas Tech — início">
-            <BrandMark small />
-          </a>
-          <div className="rail-line" />
-          <span className="rail-caption">
-            FULL STACK
-            <br />
-            &amp; AUTO
-          </span>
-          <div className="rail-socials">
-            <a
-              href="https://github.com/Salasfernando"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub Salas Tech"
-            >
-              <Github size={16} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/salas-fernando"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn Fernando Salas"
-            >
-              <Linkedin size={16} />
-            </a>
-            <a
-              href="https://www.instagram.com/salas_tech"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram Salas Tech"
-            >
-              ◎
-            </a>
-          </div>
-        </aside>
+        <a href="#top" className="skip-link">
+          Pular para o conteúdo principal
+        </a>
+        <SiteSideRail locale="pt" />
         <main>
           <header className="topbar">
             <BrandLockup href="/" className="topbar-brand" />
@@ -295,7 +169,7 @@ export default function Home() {
                   className="button button--primary"
                   href={WHATSAPP_URL}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   onClick={() =>
                     trackEvent("whatsapp_clicked", { source: "home_hero" })
                   }
@@ -310,14 +184,11 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <div ref={heroVisualRef} className="hero-visual" aria-hidden="true">
-              <img
-                src="/assets/salas-tech-network-hero_fbaebdef.png"
-                alt=""
-                fetchPriority="high"
-                decoding="async"
-              />
-            </div>
+            <Suspense
+              fallback={<div className="hero-visual" aria-hidden="true" />}
+            >
+              <NetworkScene3D />
+            </Suspense>
             <div className="hero-meta">
               <span>01 — SALAS TECH</span>
               <span>
@@ -401,7 +272,7 @@ export default function Home() {
               </p>
             </div>
             <div className="projects-list">
-              {projects.map((project) => (
+              {homeProjects.map((project) => (
                 <Link
                   className={`project-row ${project.featured ? "project-row--featured" : ""}`}
                   href={`/projetos/${project.slug}`}
@@ -422,9 +293,14 @@ export default function Home() {
                     <img
                       src={project.previewImage}
                       alt={project.previewAlt}
+                      width={640}
+                      height={400}
                       loading="lazy"
                       decoding="async"
                     />
+                    <span className="project-preview-badge" aria-hidden="true">
+                      <i /> VER CASE ↗
+                    </span>
                   </div>
                   <div className="project-side">
                     <span>{project.type}</span>
@@ -460,15 +336,32 @@ export default function Home() {
               </p>
             </div>
             <div className="stack-list">
-              {stack.map((item, index) => (
-                <div className="stack-row" key={item.name}>
-                  <span className="stack-index">0{index + 1}</span>
-                  <Code2 size={18} className="stack-icon" aria-hidden="true" />
-                  <h3>{item.name}</h3>
-                  <p>{item.note}</p>
-                  <Check size={17} className="stack-check" aria-hidden="true" />
-                </div>
-              ))}
+              {techStackPt.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <div className="stack-row" key={item.name}>
+                    <span className="stack-index">0{index + 1}</span>
+                    <div className="stack-icon-box" aria-hidden="true">
+                      <Icon size={18} className="stack-icon" />
+                    </div>
+                    <div className="stack-title-group">
+                      <span className="stack-domain">{item.domain}</span>
+                      <h3>{item.name}</h3>
+                    </div>
+                    <div className="stack-note-group">
+                      <p>{item.note}</p>
+                      <div className="stack-meter" aria-hidden="true">
+                        <span className="stack-meter-fill" />
+                      </div>
+                    </div>
+                    <Check
+                      size={17}
+                      className="stack-check"
+                      aria-hidden="true"
+                    />
+                  </div>
+                );
+              })}
             </div>
             <div className="stack-footer">
               <span>FRONT-END · BACK-END · DADOS · AUTOMAÇÃO</span>
@@ -485,12 +378,38 @@ export default function Home() {
             </div>
             <div className="about-grid">
               <div className="about-heading">
-                <p className="display-note">/ quem está por trás</p>
+                <p className="display-note">
+                  <span className="status-dot" /> / quem está por trás
+                </p>
                 <h2>
                   Raciocínio em
                   <br />
                   <span>movimento.</span>
                 </h2>
+                <Link href="/empresa" className="about-brand-seal">
+                  <BrandMark small />
+                  <div>
+                    <strong>
+                      SALAS TECH · ENGENHARIA DIGITAL{" "}
+                      <ArrowUpRight size={13} aria-hidden="true" />
+                    </strong>
+                    <span>Arquitetura, código limpo e visão de negócio</span>
+                  </div>
+                </Link>
+                <div className="about-pillars">
+                  <span>
+                    <Compass size={14} aria-hidden="true" /> Diagnóstico claro
+                    antes do código
+                  </span>
+                  <span>
+                    <Layers3 size={14} aria-hidden="true" /> Interfaces, APIs,
+                    dados e IA integrados
+                  </span>
+                  <span>
+                    <ShieldCheck size={14} aria-hidden="true" /> Segurança,
+                    performance e manutenção
+                  </span>
+                </div>
               </div>
               <div className="about-body">
                 <p className="lead">
@@ -499,52 +418,83 @@ export default function Home() {
                 </p>
                 <p>
                   A trajetória combina formação em Direito, estudo contínuo em
-                  tecnologia e projetos reais. Essa perspectiva ajuda a
-                  organizar problemas, explicitar decisões e construir soluções
-                  digitais sustentáveis.
+                  tecnologia e projetos reais em produção. Essa perspectiva
+                  ajuda a organizar problemas complexos, explicitar decisões
+                  técnicas e construir soluções digitais sustentáveis.
                 </p>
                 <div className="about-facts">
-                  <div>
-                    <span>BASE</span>
+                  <Link href="/empresa" className="about-fact-card">
+                    <span className="about-fact-label">01 / BASE ↗</span>
                     <strong>
                       Brasília
                       <br />
-                      Brasil
+                      Brasil (DF)
                     </strong>
-                  </div>
-                  <div>
-                    <span>ATUAÇÃO</span>
+                  </Link>
+                  <Link href="/empresa" className="about-fact-card">
+                    <span className="about-fact-label">02 / ATUAÇÃO ↗</span>
                     <strong>
                       Desde
                       <br />
                       junho de 2023
                     </strong>
-                  </div>
-                  <div>
-                    <span>FOCO</span>
+                  </Link>
+                  <Link href="/empresa" className="about-fact-card">
+                    <span className="about-fact-label">03 / FOCO ↗</span>
                     <strong>
                       Web · Sistemas
                       <br />
-                      Automação
+                      Automação &amp; IA
                     </strong>
-                  </div>
+                  </Link>
                 </div>
-                <Link className="text-link about-resume-link" href="/curriculo">
-                  Conhecer o currículo <ArrowUpRight size={15} />
-                </Link>
+                <div className="about-actions">
+                  <Link className="button button--about" href="/empresa">
+                    Sobre a Salas Tech <ArrowUpRight size={15} />
+                  </Link>
+                  <Link
+                    className="text-link about-resume-link"
+                    href="/curriculo"
+                  >
+                    Conhecer o currículo <ArrowUpRight size={15} />
+                  </Link>
+                  <Link
+                    className="text-link about-resume-link"
+                    href="/processo"
+                  >
+                    Nosso processo <ArrowUpRight size={15} />
+                  </Link>
+                </div>
               </div>
               <div className="about-image">
-                <img
-                  src="/assets/salas-tech-thinking-system_6c46407b.png"
-                  alt="Composição editorial sobre pensamento sistêmico"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <span>
-                  SALAS TECH
-                  <br />
-                  FULL STACK &amp; AUTOMAÇÃO
-                </span>
+                <Link
+                  href="/empresa"
+                  className="about-image-frame"
+                  aria-label="Conhecer mais sobre a Salas Tech"
+                >
+                  <div className="about-image-topbar" aria-hidden="true">
+                    <span>
+                      <i />
+                      <i />
+                      <i />
+                    </span>
+                    <small>SALAS.TECH // SYSTEMS.THINKING</small>
+                  </div>
+                  <img
+                    src="/assets/salas-tech-thinking-system_6c46407b.png"
+                    alt="Composição editorial sobre pensamento sistêmico"
+                    width={640}
+                    height={640}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="about-image-caption">
+                    <span>
+                      <i className="about-live-dot" /> SALAS TECH
+                    </span>
+                    <strong>VER PÁGINA SOBRE ↗</strong>
+                  </div>
+                </Link>
               </div>
             </div>
           </section>
@@ -557,36 +507,90 @@ export default function Home() {
               </span>
             </div>
             <div className="articles-heading">
-              <h2>
-                Ideias que
-                <br />
-                <span>viram prática.</span>
-              </h2>
+              <div>
+                <p className="eyebrow">
+                  <Terminal size={14} aria-hidden="true" /> ENGENHARIA, PRODUTO
+                  &amp; DECISÕES REAIS
+                </p>
+                <h2>
+                  Ideias que
+                  <br />
+                  <span>viram prática.</span>
+                </h2>
+              </div>
               <p>
-                Notas sobre React, Next.js, produto, acessibilidade e decisões
-                de engenharia.
+                Notas técnicas com exemplos aplicáveis de código sobre React,
+                Next.js, APIs, performance, acessibilidade e arquitetura de
+                produto.
               </p>
             </div>
-            <div className="articles-list">
-              {articles.slice(0, 3).map((article) => (
-                <Link
-                  className="article-row"
-                  href={`/notas/${article.slug}`}
-                  key={article.index}
+            <div
+              className="filter-bar articles-filter-bar"
+              role="group"
+              aria-label="Filtrar notas técnicas por tema"
+            >
+              {homeNoteFilters.map((filter) => (
+                <button
+                  key={filter}
+                  type="button"
+                  className={`filter-chip ${activeNoteFilter === filter ? "filter-chip--active" : ""}`}
+                  aria-pressed={activeNoteFilter === filter}
+                  onClick={() => setActiveNoteFilter(filter)}
                 >
-                  <span className="article-index">{article.index}</span>
-                  <div>
-                    <span className="article-category">{article.category}</span>
-                    <h3>{article.title}</h3>
-                    <p>{article.excerpt}</p>
-                  </div>
-                  <span className="article-read">{article.read} ↗</span>
-                </Link>
+                  {filter}
+                </button>
               ))}
             </div>
-            <Link className="text-link notes-archive-link" href="/notas">
-              Ver todas as notas técnicas <ArrowUpRight size={15} />
-            </Link>
+            <motion.div layout className="articles-list">
+              <AnimatePresence mode="popLayout">
+                {filteredHomeArticles.map((article) => (
+                  <motion.div
+                    key={article.slug}
+                    layout
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <Link
+                      className="article-row"
+                      href={`/notas/${article.slug}`}
+                    >
+                      <span className="article-index">{article.index}</span>
+                      <div className="article-main">
+                        <div className="article-meta-row">
+                          <span className="article-category">
+                            <i aria-hidden="true" /> {article.category}
+                          </span>
+                          <span className="article-lab-badge">
+                            <BookOpen size={11} aria-hidden="true" /> LAB +
+                            CÓDIGO
+                          </span>
+                        </div>
+                        <h3>{article.title}</h3>
+                        <p>{article.excerpt}</p>
+                      </div>
+                      <div className="article-read-group">
+                        <span className="article-read">{article.read}</span>
+                        <span className="article-arrow-box" aria-hidden="true">
+                          <ArrowUpRight size={17} />
+                        </span>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+            <div className="articles-footer-bar">
+              <span className="articles-footer-count">
+                EXIBINDO {filteredHomeArticles.length} DE {articles.length}{" "}
+                NOTAS PUBLICADAS
+              </span>
+              <Link className="button button--notes" href="/notas">
+                Explorar todas as {articles.length} notas técnicas{" "}
+                <ArrowUpRight size={15} />
+              </Link>
+            </div>
           </section>
 
           <section id="contato" className="contact-section section-pad">
@@ -598,7 +602,9 @@ export default function Home() {
             </div>
             <div className="contact-content">
               <div className="contact-message">
-                <p className="eyebrow">Salas Tech / Full Stack &amp; Automação</p>
+                <p className="eyebrow">
+                  Salas Tech / Full Stack &amp; Automação
+                </p>
                 <h2>
                   Vamos transformar
                   <br />
@@ -610,7 +616,7 @@ export default function Home() {
                   className="button button--primary"
                   href={WHATSAPP_URL}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   onClick={() =>
                     trackEvent("whatsapp_clicked", { source: "home_contact" })
                   }
@@ -636,45 +642,7 @@ export default function Home() {
               <span>DESDE 2023</span>
             </div>
           </section>
-          <footer className="footer">
-            <div className="footer-main">
-              <BrandLockup href="#top" className="footer-brand" />
-              <nav className="footer-links" aria-label="Links do rodapé">
-                <Link href="/empresa">Empresa</Link>
-                <Link href="/processo">Processo</Link>
-                <Link href="/curriculo">Currículo</Link>
-                <Link href="/cartao">Cartão digital</Link>
-                <Link href="/marca">Materiais da marca</Link>
-                <Link href="/privacidade">Privacidade</Link>
-                <Link href="/termos-de-uso">Termos de uso</Link>
-                <a
-                  href="https://github.com/Salasfernando"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  GitHub
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/salas-fernando"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  LinkedIn
-                </a>
-                <a
-                  href="https://www.instagram.com/salas_tech"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Instagram
-                </a>
-              </nav>
-            </div>
-            <div className="footer-credit">
-              <span>Full Stack &amp; Automação · Brasília, Brasil</span>
-              <strong>Desenvolvido por Salas Tech</strong>
-            </div>
-          </footer>
+          <SiteFooter locale="pt" />
         </main>
       </div>
     </>

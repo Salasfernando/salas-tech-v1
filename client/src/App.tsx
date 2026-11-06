@@ -1,30 +1,30 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { lazy, Suspense } from "react";
-import { Route, Switch } from "wouter";
+import { Suspense, useEffect } from "react";
+import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import ScrollEffects from "@/components/ScrollEffects";
 import SmoothScroll from "@/components/SmoothScroll";
 
-const Home = lazy(() => import("./pages/Home"));
-const Company = lazy(() => import("@/pages/Company"));
-const EnglishHome = lazy(() => import("@/pages/EnglishHome"));
-const ProjectDetail = lazy(() => import("@/pages/ProjectDetail"));
-const ServiceDetail = lazy(() => import("@/pages/ServiceDetail"));
-const Resume = lazy(() => import("@/pages/Resume"));
-const EnglishResume = lazy(() => import("@/pages/EnglishResume"));
-const DigitalCard = lazy(() => import("@/pages/DigitalCard"));
-const ArticleDetail = lazy(() => import("@/pages/ArticleDetail"));
-const NotesArchive = lazy(() => import("@/pages/NotesArchive"));
-const NotFound = lazy(() => import("@/pages/NotFound"));
-const Maintenance = lazy(() => import("@/pages/Maintenance"));
-const Process = lazy(() => import("@/pages/Process"));
-const QuotePage = lazy(() => import("@/pages/QuotePage"));
-const Privacy = lazy(() => import("@/pages/Privacy"));
-const Terms = lazy(() => import("@/pages/Terms"));
-const BrandAssets = lazy(() => import("@/pages/BrandAssets"));
+import Home from "./pages/Home";
+import Company from "@/pages/Company";
+import EnglishHome from "@/pages/EnglishHome";
+import ProjectDetail from "@/pages/ProjectDetail";
+import ServiceDetail from "@/pages/ServiceDetail";
+import Resume from "@/pages/Resume";
+import EnglishResume from "@/pages/EnglishResume";
+import DigitalCard from "@/pages/DigitalCard";
+import ArticleDetail from "@/pages/ArticleDetail";
+import NotesArchive from "@/pages/NotesArchive";
+import NotFound from "@/pages/NotFound";
+import Maintenance from "@/pages/Maintenance";
+import Process from "@/pages/Process";
+import QuotePage from "@/pages/QuotePage";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
+import BrandAssets from "@/pages/BrandAssets";
 
 function RouteLoading() {
   return (
@@ -35,27 +35,39 @@ function RouteLoading() {
 }
 
 function Router() {
+  const [location] = useLocation();
+
+  useEffect(() => {
+    if (!window.location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  }, [location]);
+
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/empresa" component={Company} />
-      <Route path="/en" component={EnglishHome} />
-      <Route path="/servicos/:slug" component={ServiceDetail} />
-      <Route path="/projetos/:slug" component={ProjectDetail} />
-      <Route path="/curriculo" component={Resume} />
-      <Route path="/en/curriculo" component={EnglishResume} />
-      <Route path="/cartao" component={DigitalCard} />
-      <Route path="/notas/:slug" component={ArticleDetail} />
-      <Route path="/notas" component={NotesArchive} />
-      <Route path="/manutencao" component={Maintenance} />
-      <Route path="/processo" component={Process} />
-      <Route path="/orcamento" component={QuotePage} />
-      <Route path="/privacidade" component={Privacy} />
-      <Route path="/termos-de-uso" component={Terms} />
-      <Route path="/marca" component={BrandAssets} />
-      <Route path="/404" component={NotFound} />
-      <Route component={NotFound} />
-    </Switch>
+    <div key={location} className="route-transition-shell">
+      <Switch location={location}>
+        <Route path="/" component={Home} />
+        <Route path="/empresa" component={Company} />
+        <Route path="/en" component={EnglishHome} />
+        <Route path="/servicos/:slug" component={ServiceDetail} />
+        <Route path="/projetos/:slug" component={ProjectDetail} />
+        <Route path="/curriculo" component={Resume} />
+        <Route path="/en/curriculo" component={EnglishResume} />
+        <Route path="/cartao" component={DigitalCard} />
+        <Route path="/notas/:slug" component={ArticleDetail} />
+        <Route path="/notas" component={NotesArchive} />
+        <Route path="/manutencao" component={Maintenance} />
+        <Route path="/processo" component={Process} />
+        <Route path="/orcamento" component={QuotePage} />
+        <Route path="/privacidade" component={Privacy} />
+        <Route path="/termos-de-uso" component={Terms} />
+        <Route path="/marca" component={BrandAssets} />
+        <Route path="/404" component={NotFound} />
+        <Route component={NotFound} />
+      </Switch>
+    </div>
   );
 }
 

@@ -1,5 +1,6 @@
 import { ArrowLeft, Home, RefreshCw, Wrench } from "lucide-react";
 import { Link } from "wouter";
+import BrandLockup from "@/components/BrandLockup";
 import SeoHead, { siteUrl } from "@/components/SeoHead";
 
 export default function Maintenance() {
@@ -20,10 +21,7 @@ export default function Maintenance() {
       <main className="maintenance-page">
         <div className="maintenance-grid" aria-hidden="true" />
         <header className="maintenance-header">
-          <Link href="/" className="wordmark">
-            <span>SALAS</span>
-            <em>TECH</em>
-          </Link>
+          <BrandLockup href="/" />
           <span>
             <span className="status-dot" /> sistema em atualização
           </span>
@@ -44,6 +42,7 @@ export default function Maintenance() {
           </p>
           <div className="maintenance-actions">
             <button
+              type="button"
               className="button button--primary"
               onClick={() => window.location.reload()}
             >

@@ -1,0 +1,198 @@
+/* ==========================================================================
+   CORE DE MOVIMENTO, 3D WEBGL, ACESSIBILIDADE E TRANSIÇÕES DE ROTA
+   ========================================================================== */
+:root {
+  --motion-enter: 620ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+.site-shell {
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+.gsap-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #00e5ff 0%, #f8fafc 100%);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.55);
+  z-index: 999;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.network-scene-wrapper {
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.network-scene-orbital {
+  position: absolute;
+  inset: -14%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.network-scene-embedded {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.network-scene-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.network-scene-wrapper--ready .network-scene-backdrop {
+  opacity: 0.26;
+  transition: opacity 600ms ease;
+}
+
+.network-scene-hud {
+  position: absolute;
+  bottom: 18px;
+  right: 22px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  background: rgba(11, 25, 44, 0.78);
+  border: 1px solid rgba(0, 229, 255, 0.28);
+  backdrop-filter: blur(8px);
+  font:
+    9px/1 "IBM Plex Mono",
+    monospace;
+  letter-spacing: 0.14em;
+  color: rgba(248, 250, 252, 0.78);
+  pointer-events: none;
+}
+
+.network-scene-hud__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+main > section[id],
+.company-page > section[id] {
+  scroll-margin-top: 112px;
+}
+
+/* Desativa os reveals antigos em CSS para que o GSAP controle o movimento sem conflito. */
+.site-shell > main,
+.case-page,
+.resume-page,
+.card-page,
+.company-page,
+.not-found-page,
+.reveal-up,
+.scroll-reveal,
+.scroll-reveal--visible,
+.section-pad > .section-kicker,
+.section-pad > .articles-heading,
+.section-pad > .projects-heading,
+.section-pad > .stack-intro {
+  animation: none !important;
+}
+
+html.motion-active .motion-reveal {
+  opacity: 0;
+}
+
+html.motion-active .motion-reveal.motion-reveal--visible {
+  opacity: 1;
+}
+
+.route-transition-shell {
+  animation: salasRouteFade 320ms var(--motion-ease) both;
+}
+
+@keyframes salasRouteFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Link de salto rápido para acessibilidade via teclado (WCAG 2.4.1) */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 90px;
+  z-index: 200;
+  padding: 10px 16px;
+  background: var(--cyan);
+  color: var(--navy);
+  font:
+    600 11px/1 "IBM Plex Mono",
+    monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  transform: translateY(-160%);
+  transition: transform 220ms var(--motion-ease);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--paper);
+  outline-offset: 2px;
+}
+
+/* CTA fixo: permanece estável e responde suavemente ao hover/foco. */
+.whatsapp-float,
+.whatsapp-float::before,
+.whatsapp-float::after {
+  animation: none !important;
+}
+
+.whatsapp-float.whatsapp-float--motion {
+  position: fixed !important;
+  right: 24px;
+  bottom: 28px !important;
+  z-index: 180;
+  isolation: isolate;
+  width: 54px;
+  height: 54px;
+  overflow: visible;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 360ms var(--motion-ease),
+    box-shadow 360ms ease,
+    filter 360ms ease;
+}
+
+.whatsapp-float.whatsapp-float--motion::before,
+.whatsapp-float.whatsapp-float--motion::after {
+  display: none !important;
+  animation: none !important;
+}
+
+.whatsapp-float.whatsapp-float--motion:hover,
+.whatsapp-float.whatsapp-float--motion:focus-visible {
+  transform: translateY(-3px);
+  filter: brightness(1.05);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.26);
+}

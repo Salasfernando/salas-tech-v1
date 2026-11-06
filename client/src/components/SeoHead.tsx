@@ -94,9 +94,21 @@ export default function SeoHead({
     setMeta("name", "twitter:image", image);
     setMeta("name", "twitter:image:alt", imageAlt);
     setLink("canonical", canonical);
-    setLink("alternate", `${siteUrl}/`, { hreflang: "pt-BR" });
-    setLink("alternate", `${siteUrl}/en`, { hreflang: "en" });
-    setLink("alternate", `${siteUrl}/`, { hreflang: "x-default" });
+    if (path === "/" || path === "/en") {
+      setLink("alternate", `${siteUrl}/`, { hreflang: "pt-BR" });
+      setLink("alternate", `${siteUrl}/en`, { hreflang: "en" });
+      setLink("alternate", `${siteUrl}/`, { hreflang: "x-default" });
+    } else if (path === "/curriculo" || path === "/en/curriculo") {
+      setLink("alternate", `${siteUrl}/curriculo`, { hreflang: "pt-BR" });
+      setLink("alternate", `${siteUrl}/en/curriculo`, { hreflang: "en" });
+      setLink("alternate", `${siteUrl}/curriculo`, { hreflang: "x-default" });
+    } else {
+      setLink("alternate", canonical, { hreflang: "pt-BR" });
+      setLink("alternate", canonical, { hreflang: "x-default" });
+      document.head
+        .querySelector<HTMLLinkElement>('link[rel="alternate"][hreflang="en"]')
+        ?.remove();
+    }
 
     const existing = document.head.querySelector<HTMLScriptElement>(
       "script[data-seo-jsonld]",
@@ -105,7 +117,10 @@ export default function SeoHead({
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.dataset.seoJsonld = "true";
-    script.textContent = JSON.stringify({ ...jsonLd, url: canonical });
+    script.textContent = JSON.stringify({ ...jsonLd, url: canonical }).replace(
+      /</g,
+      "\\u003c",
+    );
     document.head.appendChild(script);
     return () => {
       script.remove();
