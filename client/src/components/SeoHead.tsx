@@ -4,7 +4,7 @@ type SeoProps = {
   title: string;
   description: string;
   path: string;
-  type?: "website" | "profile";
+  type?: "website" | "profile" | "article";
   jsonLd: Record<string, unknown>;
   image?: string;
   imageAlt?: string;
@@ -13,8 +13,14 @@ type SeoProps = {
 
 const siteUrl = import.meta.env.VITE_SITE_URL || "https://www.salastech.com.br";
 const defaultOgImage = `${siteUrl}/assets/logo%2Bsalastech.png`;
+const googleVerification = import.meta.env.VITE_GOOGLE_SITE_VERIFICATION || "";
+const bingVerification = import.meta.env.VITE_BING_SITE_VERIFICATION || "";
 
-function setMeta(attribute: "name" | "property", key: string, content: string) {
+function setMeta(
+  attribute: "name" | "property" | "http-equiv",
+  key: string,
+  content: string,
+) {
   let node = document.head.querySelector<HTMLMetaElement>(
     `meta[${attribute}="${key}"]`,
   );
@@ -54,9 +60,17 @@ export default function SeoHead({
 }: SeoProps) {
   useEffect(() => {
     const canonical = `${siteUrl}${path}`;
-    document.documentElement.lang = path.startsWith("/en") ? "en" : "pt-BR";
+    const lang = path.startsWith("/en") ? "en" : "pt-BR";
+    document.documentElement.lang = lang;
     document.title = title;
+    setMeta("http-equiv", "content-language", lang);
     setMeta("name", "description", description);
+    if (googleVerification) {
+      setMeta("name", "google-site-verification", googleVerification);
+    }
+    if (bingVerification) {
+      setMeta("name", "msvalidate.01", bingVerification);
+    }
     setMeta(
       "name",
       "robots",

@@ -84,7 +84,7 @@ export default function ArticleDetail() {
             "@type": "ListItem",
             position: 2,
             name: "Notas",
-            item: `${siteUrl}/#artigos`,
+            item: `${siteUrl}/notas`,
           },
           {
             "@type": "ListItem",
@@ -103,7 +103,8 @@ export default function ArticleDetail() {
         title={`${note.title} | Salas Tech`}
         description={note.intro}
         path={`/notas/${slug}`}
-        image={`${siteUrl}/assets/Logo%20Salas%20Tech.png`}
+        type="article"
+        image={`${siteUrl}/assets/logo%2Bsalastech.png`}
         imageAlt={`Logo oficial da Salas Tech — nota técnica ${note.title}`}
         jsonLd={jsonLd}
       />

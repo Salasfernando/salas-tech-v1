@@ -1637,15 +1637,22 @@ main {
     display: none;
   }
   .menu-button {
-    display: block;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
     border: 0;
     background: transparent;
     color: var(--cyan);
   }
   .mobile-nav {
+    display: none;
+  }
+  .mobile-nav--open {
     position: absolute;
     right: 5vw;
     top: 68px;
+    z-index: 79;
     display: grid;
     gap: 18px;
     width: 185px;
@@ -6710,8 +6717,8 @@ h3,
     border: 1px solid rgba(248, 250, 252, 0.3);
     background: transparent;
     color: var(--paper);
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     cursor: pointer;
   }
   .mobile-nav {

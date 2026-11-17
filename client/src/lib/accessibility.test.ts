@@ -174,4 +174,107 @@ describe("acessibilidade, segurança, SEO e modularização estrutural", () => {
     expect(serverApp).toContain("https://app.salastech.com.br");
     expect(vercelConfig).toContain("https://app.salastech.com.br");
   });
+
+  test("todos os assets locais referenciados no código e SeoHead existem em client/public/assets", () => {
+    const html = fs.readFileSync(
+      path.resolve(process.cwd(), "client/index.html"),
+      "utf8",
+    );
+    const combined = `${source}\n${html}`;
+    const matches = combined.match(/\/assets\/[^"'\s`)}]+/g) || [];
+    expect(matches.length).toBeGreaterThan(0);
+
+    const publicDir = path.resolve(process.cwd(), "client/public");
+    for (const rawAssetPath of new Set(matches)) {
+      const decodedRelative = decodeURIComponent(rawAssetPath).replace(
+        /^\//,
+        "",
+      );
+      const fullAssetPath = path.join(publicDir, decodedRelative);
+      expect(
+        fs.existsSync(fullAssetPath),
+        `asset ausente em client/public: ${rawAssetPath} -> ${fullAssetPath}`,
+      ).toBe(true);
+    }
+  });
+
+  test("páginas estáticas indexáveis possuem títulos únicos no SeoHead", () => {
+    const pagesDir = path.resolve(process.cwd(), "client/src/pages");
+    const pageFiles = fs
+      .readdirSync(pagesDir)
+      .filter((name) => name.endsWith(".tsx"));
+    const staticTitles = new Map<string, string>();
+
+    for (const pageFile of pageFiles) {
+      const content = fs.readFileSync(path.join(pagesDir, pageFile), "utf8");
+      const seoBlock = content.match(/<SeoHead[\s\S]*?\/>/)?.[0] || "";
+      if (/\bnoIndex\b/.test(seoBlock)) continue;
+      const staticTitleMatch = seoBlock.match(/\btitle="([^"]+)"/);
+      if (!staticTitleMatch) continue;
+      const title = staticTitleMatch[1];
+      expect(
+        staticTitles.has(title),
+        `título duplicado "${title}" entre ${staticTitles.get(title)} e ${pageFile}`,
+      ).toBe(false);
+      staticTitles.set(title, pageFile);
+    }
+  });
+
+  test("menu mobile permanece oculto por padrão em viewports <= 900px e respeita área mínima de toque (44x44px)", () => {
+    const css = fs.readFileSync(
+      path.resolve(process.cwd(), "client/src/index.css"),
+      "utf8",
+    );
+    expect(css).not.toMatch(
+      /\.mobile-nav\s*\{\s*position:\s*absolute;[\s\S]*?display:\s*grid;/,
+    );
+    expect(css).toMatch(
+      /\.menu-button\s*\{[\s\S]*?width:\s*44px;\s*height:\s*44px;/,
+    );
+  });
+
+  test("llms.txt, robots.txt e SeoHead estão configurados para Google, Bing e buscas por IA", () => {
+    const llms = fs.readFileSync(
+      path.resolve(process.cwd(), "client/public/llms.txt"),
+      "utf8",
+    );
+    const robots = fs.readFileSync(
+      path.resolve(process.cwd(), "client/public/robots.txt"),
+      "utf8",
+    );
+    const html = fs.readFileSync(
+      path.resolve(process.cwd(), "client/index.html"),
+      "utf8",
+    );
+    const seoHead = fs.readFileSync(
+      path.resolve(process.cwd(), "client/src/components/SeoHead.tsx"),
+      "utf8",
+    );
+
+    for (const projectSlug of orderedProjectKeys) {
+      expect(llms).toContain(
+        `https://www.salastech.com.br/projetos/${projectSlug}`,
+      );
+    }
+    for (const noteSlug of Object.keys(notesContent)) {
+      expect(llms).toContain(`https://www.salastech.com.br/notas/${noteSlug}`);
+    }
+    for (const bot of [
+      "Googlebot",
+      "Bingbot",
+      "OAI-SearchBot",
+      "ChatGPT-User",
+      "GPTBot",
+      "ClaudeBot",
+      "PerplexityBot",
+      "Google-Extended",
+    ]) {
+      expect(robots).toContain(`User-agent: ${bot}`);
+    }
+    expect(html).toContain('http-equiv="content-language"');
+    expect(html).toContain("https://www.salastech.com.br/llms.txt");
+    expect(seoHead).toContain("google-site-verification");
+    expect(seoHead).toContain("msvalidate.01");
+    expect(seoHead).toContain("content-language");
+  });
 });

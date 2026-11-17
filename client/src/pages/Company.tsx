@@ -51,7 +51,7 @@ export default function Company() {
   return (
     <>
       <SeoHead
-        title="Salas Tech — Full Stack & Automação"
+        title="Sobre a Salas Tech — Full Stack & Automação"
         description="Sites institucionais, produtos web, sistemas e automações desenvolvidos pela Salas Tech para tornar negócios e operações digitais mais claros."
         path="/empresa"
         jsonLd={jsonLd}

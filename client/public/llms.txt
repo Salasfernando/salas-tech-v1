@@ -1,0 +1,57 @@
+# Salas Tech — Full Stack & Automação
+
+> A Salas Tech é um estúdio e consultoria de engenharia de software Full Stack e automação sediado em Brasília, DF, Brasil, fundado por Fernando Salas Ferreira. Desenvolvemos sites institucionais de alta performance, produtos web, sistemas operacionais sob medida e fluxos de automação/IA para empresas.
+
+- Site oficial: https://www.salastech.com.br/
+- Versão em inglês: https://www.salastech.com.br/en
+- Fundador e Engenheiro Responsável: Fernando Salas Ferreira
+- E-mail: contato@salastech.com.br
+- WhatsApp Comercial: +55 61 98103-3420 (https://wa.me/5561981033420)
+- Localização: Brasília, DF, Brasil (atendimento nacional e internacional)
+- Stack Principal: TypeScript, React, Next.js, Node.js, Python, PostgreSQL, Firebase, Docker, Tailwind CSS, GSAP, Three.js, Integrações via API/Webhooks e Agentes de IA.
+
+## Páginas Institucionais e Perfil
+
+- [Início (PT-BR)](https://www.salastech.com.br/): Visão geral de serviços, projetos selecionados, stack tecnológica e notas técnicas.
+- [Home (English)](https://www.salastech.com.br/en): Overview of Salas Tech services, selected case studies, and engineering approach.
+- [Sobre a Salas Tech](https://www.salastech.com.br/empresa): Posicionamento institucional, arquitetura de soluções e entregas.
+- [Processo de Trabalho](https://www.salastech.com.br/processo): Metodologia em 4 etapas (Contexto, Arquitetura, Construção e Operação).
+- [Currículo — Fernando Salas Ferreira (PT-BR)](https://www.salastech.com.br/curriculo): Trajetória profissional, formação em Direito e Engenharia de Software, certificações e projetos.
+- [Résumé — Fernando Salas Ferreira (EN)](https://www.salastech.com.br/en/curriculo): Professional background, technical stack, and software engineering experience.
+- [Cartão Digital](https://www.salastech.com.br/cartao): Contato rápido, QR Code e canais oficiais de Fernando Salas.
+- [Materiais da Marca](https://www.salastech.com.br/marca): Identidade visual e ativos oficiais da Salas Tech.
+
+## Serviços Especializados
+
+- [Sites Institucionais](https://www.salastech.com.br/servicos/sites-institucionais): Presença digital clara, rápida, responsiva e com SEO técnico estruturado para empresas e clínicas.
+- [Produtos Web](https://www.salastech.com.br/servicos/produtos-web): Aplicações web completas, painéis, portais de clientes e SaaS com foco em UX e estabilidade.
+- [Sistemas e Operação](https://www.salastech.com.br/servicos/sistemas-e-operacao): Sistemas internos, dashboards operacionais, controle de dados e governança técnica.
+- [Automação](https://www.salastech.com.br/servicos/automacao): Integração entre sistemas, bots de atendimento com IA, triagem inteligente e redução de trabalho manual.
+
+## Estudos de Caso e Projetos em Produção
+
+- [Plataforma de Atendimento com IA — Salas Tech](https://www.salastech.com.br/projetos/plataforma-atendimento-ia): Sistema próprio de triagem comercial, atendimento assistido por IA e operação integrada ao WhatsApp.
+- [Lounge Odontologia](https://www.salastech.com.br/projetos/lounge-odontologia): Presença digital premium para clínica odontológica no Lago Sul (Brasília/DF), focada em conversão via WhatsApp e SEO local.
+- [Etron Energy](https://www.salastech.com.br/projetos/etron-energy): Plataforma institucional e comercial para engenharia e energia solar com foco em geração de propostas.
+- [Unovitta Odontologia](https://www.salastech.com.br/projetos/unovitta-odontologia): Site institucional odontológico projetado para clareza de tratamentos e agendamento rápido.
+- [NOC Odontologia](https://www.salastech.com.br/projetos/noc-odontologia): Experiência digital moderna para clínica odontológica com arquitetura de informação orientada ao paciente.
+- [Etron Monitoramento](https://www.salastech.com.br/projetos/etron-monitoramento): Interface técnica e comercial para operação de monitoramento e segurança eletrônica.
+
+## Notas Técnicas (Engenharia de Software & Produto)
+
+- [Arquivo Completo de Notas Técnicas](https://www.salastech.com.br/notas): Artigos autorais sobre arquitetura, TypeScript, acessibilidade e SEO técnico.
+- [Tipagem como ferramenta de produto](https://www.salastech.com.br/notas/tipagem-produto): Como modelos de tipos em TypeScript previnem estados impossíveis na interface.
+- [Performance começa na arquitetura](https://www.salastech.com.br/notas/performance-arquitetura): Decisões de carregamento, divisão de bundles e Web Vitals.
+- [O que o Direito me ensinou sobre código](https://www.salastech.com.br/notas/direito-codigo): Contratos claros, regras explícitas e responsabilidade técnica.
+- [API como contrato explícito](https://www.salastech.com.br/notas/api-como-contrato): Validação de fronteiras, payloads previsíveis e tratamento de erros.
+- [Componentes consistentes escalam melhor](https://www.salastech.com.br/notas/componentes-consistentes): Design tokens, composição e manutenção de UI.
+- [Deploy sem surpresa](https://www.salastech.com.br/notas/deploy-sem-surpresa): Pipelines determinísticos, checagem de tipos e paridade de ambiente.
+- [Acessibilidade na prática](https://www.salastech.com.br/notas/acessibilidade-na-pratica): Navegação por teclado, semântica HTML, contraste e `prefers-reduced-motion`.
+- [Estados de carregamento e percepção de velocidade](https://www.salastech.com.br/notas/estados-de-carregamento): Feedback imediato, transições previsíveis e estabilidade visual.
+- [SEO técnico na própria interface](https://www.salastech.com.br/notas/seo-tecnico-na-interface): Dados estruturados JSON-LD, canonicals, OpenGraph e hierarquia semântica.
+- [Modelagem de dados e segurança no Firebase](https://www.salastech.com.br/notas/dados-com-firebase): Regras de segurança, índices e arquitetura orientada a leitura.
+
+## Políticas e Governança
+
+- [Política de Privacidade](https://www.salastech.com.br/privacidade)
+- [Termos de Uso](https://www.salastech.com.br/termos-de-uso)
