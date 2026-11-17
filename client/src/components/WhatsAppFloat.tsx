@@ -1,11 +1,13 @@
 import { trackEvent } from "@/lib/analytics";
-import { WHATSAPP_URL } from "@/lib/contact";
+import { useWhatsAppTracking } from "@/hooks/useWhatsAppTracking";
 
 export default function WhatsAppFloat() {
+  const waLink = useWhatsAppTracking();
+
   return (
     <a
       className="whatsapp-float whatsapp-float--motion"
-      href={WHATSAPP_URL}
+      href={waLink}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar com a Salas Tech pelo WhatsApp"

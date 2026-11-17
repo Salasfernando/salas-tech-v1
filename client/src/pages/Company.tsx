@@ -14,12 +14,14 @@ import SeoHead, { siteUrl } from "@/components/SeoHead";
 import { companyProcessSteps } from "@/data/process";
 import { companyCoreStack } from "@/data/stack";
 import { trackEvent } from "@/lib/analytics";
-import { CONTACT_EMAIL, WHATSAPP_NUMBER, WHATSAPP_URL } from "@/lib/contact";
+import { CONTACT_EMAIL, WHATSAPP_NUMBER } from "@/lib/contact";
+import { useWhatsAppTracking } from "@/hooks/useWhatsAppTracking";
 import { services } from "@/lib/services";
 
 const NetworkScene3D = lazy(() => import("@/components/NetworkScene3D"));
 
 export default function Company() {
+  const waLink = useWhatsAppTracking();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -74,7 +76,7 @@ export default function Company() {
               Currículo <span>↗</span>
             </Link>
             <a
-              href={WHATSAPP_URL}
+              href={waLink}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
@@ -105,7 +107,7 @@ export default function Company() {
             </p>
             <div className="hero-actions">
               <a
-                href={WHATSAPP_URL}
+                href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="button button--primary"
@@ -269,7 +271,7 @@ export default function Company() {
           </h2>
           <a
             className="button button--primary"
-            href={WHATSAPP_URL}
+            href={waLink}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() =>

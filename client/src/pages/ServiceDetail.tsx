@@ -6,7 +6,7 @@ import SeoHead, { siteUrl } from "@/components/SeoHead";
 import { publishedProjects } from "@/data/projects";
 import { serviceDetails, serviceSteps } from "@/data/servicesDetail";
 import { trackEvent } from "@/lib/analytics";
-import { WHATSAPP_URL } from "@/lib/contact";
+import { useWhatsAppTracking } from "@/hooks/useWhatsAppTracking";
 import { services } from "@/lib/services";
 import NotFound from "@/pages/NotFound";
 
@@ -25,6 +25,10 @@ export default function ServiceDetail() {
   );
   const Icon = service.icon;
   const path = `/servicos/${service.slug}`;
+  const waLink = useWhatsAppTracking(
+    undefined,
+    `Olá! Gostaria de conversar sobre o serviço de ${service.title} da Salas Tech.`,
+  );
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -73,7 +77,7 @@ export default function ServiceDetail() {
             <div className="service-detail-actions">
               <a
                 className="button button--primary"
-                href={WHATSAPP_URL}
+                href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() =>
@@ -199,7 +203,7 @@ export default function ServiceDetail() {
           </h2>
           <a
             className="button button--primary"
-            href={WHATSAPP_URL}
+            href={waLink}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() =>

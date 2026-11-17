@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import ScrollEffects from "@/components/ScrollEffects";
 import SmoothScroll from "@/components/SmoothScroll";
+import { initGoogleAnalytics, trackPageView } from "@/lib/analytics";
 
 import Home from "./pages/Home";
 import Company from "@/pages/Company";
@@ -43,6 +44,7 @@ function Router() {
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
     }
+    trackPageView(location);
   }, [location]);
 
   return (
@@ -72,6 +74,10 @@ function Router() {
 }
 
 export default function App() {
+  useEffect(() => {
+    initGoogleAnalytics();
+  }, []);
+
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">

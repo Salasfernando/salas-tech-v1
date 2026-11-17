@@ -24,13 +24,15 @@ import { homeProjects } from "@/data/projects";
 import { techStackPt } from "@/data/stack";
 import { trackEvent } from "@/lib/analytics";
 import { articles } from "@/lib/articles";
-import { CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/contact";
+import { CONTACT_EMAIL } from "@/lib/contact";
+import { useWhatsAppTracking } from "@/hooks/useWhatsAppTracking";
 import { filterArticles, type NoteFilter } from "@/lib/noteFilters";
 import { services } from "@/lib/services";
 
 const NetworkScene3D = lazy(() => import("@/components/NetworkScene3D"));
 
 export default function Home() {
+  const waLink = useWhatsAppTracking();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeNoteFilter, setActiveNoteFilter] = useState<NoteFilter>("Todas");
 
@@ -167,7 +169,7 @@ export default function Home() {
               <div className="hero-actions">
                 <a
                   className="button button--primary"
-                  href={WHATSAPP_URL}
+                  href={waLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() =>
@@ -614,7 +616,7 @@ export default function Home() {
                 </h2>
                 <a
                   className="button button--primary"
-                  href={WHATSAPP_URL}
+                  href={waLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() =>

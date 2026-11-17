@@ -3,13 +3,13 @@ import path from "path";
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self'",
+  "script-src 'self' https://www.googletagmanager.com",
   "script-src-attr 'none'",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com",
   "worker-src 'self' blob:",
-  "connect-src 'self'",
+  "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
   "frame-src https://app.salastech.com.br https://etron-energy.vercel.app https://etron-monitoramento.vercel.app https://noc-odontologia.vercel.app https://www.loungeodontologia.com.br https://loungeodontologia.com.br https://www.unovitta.com.br https://unovitta.com.br",
   "frame-ancestors 'none'",
   "base-uri 'self'",

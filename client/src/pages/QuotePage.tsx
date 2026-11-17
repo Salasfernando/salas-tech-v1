@@ -4,13 +4,15 @@ import { Link } from "wouter";
 import BrandLockup from "@/components/BrandLockup";
 import SeoHead, { siteUrl } from "@/components/SeoHead";
 import { trackEvent } from "@/lib/analytics";
-import { WHATSAPP_URL } from "@/lib/contact";
+import { useWhatsAppTracking } from "@/hooks/useWhatsAppTracking";
 
 export default function QuotePage() {
+  const waLink = useWhatsAppTracking();
+
   useEffect(() => {
     trackEvent("quote_route_redirected_to_whatsapp");
-    window.location.replace(WHATSAPP_URL);
-  }, []);
+    window.location.replace(waLink);
+  }, [waLink]);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -60,7 +62,7 @@ export default function QuotePage() {
             <div className="quote-redirect-actions">
               <a
                 className="button button--primary"
-                href={WHATSAPP_URL}
+                href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -14,11 +14,12 @@ import BrandLockup from "@/components/BrandLockup";
 import SeoHead, { siteUrl } from "@/components/SeoHead";
 import { processPrinciples, processStepsDetail } from "@/data/process";
 import { trackEvent } from "@/lib/analytics";
-import { WHATSAPP_URL } from "@/lib/contact";
+import { useWhatsAppTracking } from "@/hooks/useWhatsAppTracking";
 
 const NetworkScene3D = lazy(() => import("@/components/NetworkScene3D"));
 
 export default function Process() {
+  const waLink = useWhatsAppTracking();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "HowTo",
@@ -173,7 +174,7 @@ export default function Process() {
           </h2>
           <a
             className="button button--primary"
-            href={WHATSAPP_URL}
+            href={waLink}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackEvent("process_cta_clicked")}
