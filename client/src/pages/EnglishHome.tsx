@@ -19,11 +19,16 @@ import { englishProjects } from "@/data/projects";
 import { englishServices } from "@/data/servicesDetail";
 import { techStackEn } from "@/data/stack";
 import { trackEvent } from "@/lib/analytics";
-import { CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/contact";
+import { CONTACT_EMAIL } from "@/lib/contact";
+import { useWhatsAppTracking } from "@/hooks/useWhatsAppTracking";
 
 const NetworkScene3D = lazy(() => import("@/components/NetworkScene3D"));
 
 export default function EnglishHome() {
+  const waLink = useWhatsAppTracking(
+    undefined,
+    "Hello! I'd like to learn more about Salas Tech solutions.",
+  );
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
   useEffect(() => {
@@ -138,7 +143,7 @@ export default function EnglishHome() {
               <div className="hero-actions">
                 <a
                   className="button button--primary"
-                  href={WHATSAPP_URL}
+                  href={waLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() =>
@@ -481,7 +486,7 @@ export default function EnglishHome() {
               </h2>
               <a
                 className="button button--primary"
-                href={WHATSAPP_URL}
+                href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() =>

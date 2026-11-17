@@ -11,9 +11,12 @@ import { Link } from "wouter";
 import BrandLockup from "@/components/BrandLockup";
 import SeoHead, { siteUrl } from "@/components/SeoHead";
 import { digitalCardAssets } from "@/data/brandAssets";
-import { CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/contact";
+import { trackEvent } from "@/lib/analytics";
+import { CONTACT_EMAIL } from "@/lib/contact";
+import { useWhatsAppTracking } from "@/hooks/useWhatsAppTracking";
 
 export default function DigitalCard() {
+  const waLink = useWhatsAppTracking();
   const { mark, cardAsset, cardPreview, qrAsset } = digitalCardAssets;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -81,9 +84,14 @@ export default function DigitalCard() {
               <div className="digital-card-links">
                 <a
                   className="digital-card-whatsapp"
-                  href={WHATSAPP_URL}
+                  href={waLink}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackEvent("whatsapp_clicked", {
+                      source: "digital_card_top",
+                    })
+                  }
                 >
                   <MessageCircle size={17} /> Falar pelo WhatsApp{" "}
                   <ArrowUpRight size={14} />
@@ -164,9 +172,14 @@ export default function DigitalCard() {
           <div className="card-actions">
             <a
               className="button button--primary"
-              href={WHATSAPP_URL}
+              href={waLink}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                trackEvent("whatsapp_clicked", {
+                  source: "digital_card_bottom",
+                })
+              }
             >
               <MessageCircle size={16} /> Conversar no WhatsApp
             </a>

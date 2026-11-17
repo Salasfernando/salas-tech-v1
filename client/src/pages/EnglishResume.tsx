@@ -24,11 +24,17 @@ import {
   resumeProjectsEn,
   resumeSkillsEn,
 } from "@/data/resume";
-import { CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/contact";
+import { trackEvent } from "@/lib/analytics";
+import { CONTACT_EMAIL } from "@/lib/contact";
+import { useWhatsAppTracking } from "@/hooks/useWhatsAppTracking";
 
 const NetworkScene3D = lazy(() => import("@/components/NetworkScene3D"));
 
 export default function EnglishResume() {
+  const waLink = useWhatsAppTracking(
+    undefined,
+    "Hello! I'd like to talk to Fernando Salas (Salas Tech).",
+  );
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
@@ -71,7 +77,13 @@ export default function EnglishResume() {
             <Link href="/curriculo">
               PT <span>↗</span>
             </Link>
-            <a href={cvUrl} download>
+            <a
+              href={cvUrl}
+              download
+              onClick={() =>
+                trackEvent("resume_pdf_downloaded", { language: "en" })
+              }
+            >
               <ArrowDownToLine size={15} /> download PDF (PT)
             </a>
           </div>
@@ -107,9 +119,12 @@ export default function EnglishResume() {
               </div>
               <div className="resume-links">
                 <a
-                  href={WHATSAPP_URL}
+                  href={waLink}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackEvent("whatsapp_clicked", { source: "english_resume" })
+                  }
                 >
                   <MessageCircle size={16} /> WhatsApp{" "}
                   <ArrowUpRight size={14} />
